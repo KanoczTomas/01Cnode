@@ -1,0 +1,35 @@
+{
+  "name": "raspinodemon",
+  "version": "0.0.0",
+  "description": "tool to monitor raspinode",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --recursive tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KanoczTomas/raspinodemon.git"
+  },
+  "keywords": [
+    "raspberry",
+    "nodejs",
+    "rest",
+    "bootstrap"
+  ],
+  "author": "Tomas Kanocz",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/KanoczTomas/raspinodemon/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-bitcoin-rpc": "^1.1.2",
+    "uglify-js": "^2.7.5"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "morgan": "^1.7.0",
+    "should": "^11.1.2"
+  }
+}
