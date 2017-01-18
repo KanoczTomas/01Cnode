@@ -4,6 +4,6 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 	$stateProvider
 	.state("overview", {
 		url: "/overview",
-		template: "here will be an overview with nodes"
+		templateUrl: "/templates/overview.html"
 	});
 }];
