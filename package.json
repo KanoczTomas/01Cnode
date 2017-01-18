@@ -4,7 +4,10 @@
   "description": "tool to monitor raspinode",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --recursive tests/"
+    "test": "mocha --recursive tests/",
+    "watch": "watchify js/app.js --poll=1000 -o static/bundle.js -vvv",
+    "build": "browserify js/app.js | uglifyjs -mc warnings=false > static/bundle.min.js",
+    "start": "nodemon -w server.js"
   },
   "repository": {
     "type": "git",
@@ -28,8 +31,16 @@
     "uglify-js": "^2.7.5"
   },
   "devDependencies": {
+    "browserify": "^13.3.0",
+    "debowerify": "^1.5.0",
     "mocha": "^3.2.0",
     "morgan": "^1.7.0",
-    "should": "^11.1.2"
+    "should": "^11.1.2",
+    "watchify": "^3.8.0"
+  },
+  "browserify": {
+    "transform": [
+      "debowerify"
+    ]
   }
 }

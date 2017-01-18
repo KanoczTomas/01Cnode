@@ -1,13 +1,15 @@
 var bitcoinRPC = require("node-bitcoin-rpc");
-var config = require("./config.js");
+var config = require("./config");
+var express = require("express");
+var app = express();
+var morgan = require("morgan");
+var bodyParser = require("body-parser");
 
-bitcoinRPC.init(config.host, config.port, config.rpc_username, config.rpc_password);
+bitcoinRPC.init(config.rpcConfig.host, config.rpcConfig.port, config.rpcConfig.rpc_username, config.rpcConfig.rpc_password);
 
-bitcoinRPC.call('getinfo', [], function(err, res){
-	if(err){
-		console.error("we have a problem calling getinfo: " + res.error);
-	}
-	else{
-		console.log(res.result);
-	}
-});
+app.listen(config.port);
+app.use(morgan("dev"));
+app.use(bodyParser.json());
+console.log("server is now running on port " + config.port);
+
+app.use('/', express.static(__dirname + '/static'));
