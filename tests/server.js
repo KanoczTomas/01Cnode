@@ -11,4 +11,5 @@ describe('server.js has the rest API which calls methods of bitcoind through rpc
 	it('should return mempool entry identified by <hash> at /api/getmempoolentry/<hash>');
 	it('should return block hash given the block height at /api/getblockhash/<index>');
 	it('should return block object when <hash> is given at /api/getblock/hash');
+	it('should return estimated fee for <nblocks> at /api/estimatefee/<nblocks>');
 });
