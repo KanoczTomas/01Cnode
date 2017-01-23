@@ -7,7 +7,7 @@
     "test": "mocha --recursive tests/",
     "watch": "watchify js/app.js --poll=1000 -o static/bundle.js -vvv",
     "build": "browserify js/app.js | uglifyjs -mc warnings=false > static/bundle.min.js",
-    "start": "nodemon -w server.js"
+    "start": "nodemon --watch server.js --watch js/api"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "mocha": "^3.2.0",
     "morgan": "^1.7.0",
     "should": "^11.1.2",
+    "supertest": "^2.0.1",
     "watchify": "^3.8.0"
   },
   "browserify": {
