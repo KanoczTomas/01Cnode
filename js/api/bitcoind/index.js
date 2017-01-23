@@ -3,6 +3,7 @@ var bitcoind = require("express").Router();
 bitcoind.get('/getinfo', require("./getinfo"));
 bitcoind.get('/getpeerinfo', require("./getpeerinfo"));
 bitcoind.get('/getnetworkinfo', require("./getnetworkinfo"));
+bitcoind.get('/getmempoolinfo', require("./getmempoolinfo"));
 
 module.exports = bitcoind;
 
