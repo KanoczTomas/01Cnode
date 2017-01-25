@@ -5,6 +5,7 @@ bitcoind.get('/getpeerinfo', require("./getpeerinfo"));
 bitcoind.get('/getnetworkinfo', require("./getnetworkinfo"));
 bitcoind.get('/getmempoolinfo', require("./getmempoolinfo"));
 bitcoind.get('/getrawmempool', require("./getrawmempool"));
+bitcoind.get('/getmempoolentry/:hash', require("./getmempoolentry"));
 
 module.exports = bitcoind;
 
