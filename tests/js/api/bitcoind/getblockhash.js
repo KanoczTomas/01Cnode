@@ -4,7 +4,7 @@ var config = require("config");
 
 describe('bitcoind rpc call restful API routing tests:', function(){
 var url = "http://localhost:" + config.get('Web.port');
-	describe('/api/bitcoind/getnetworkinfo tests:', function(done){
+	describe('/api/bitcoind/getblockhash tests:', function(done){
 		var route = "/api/bitcoind/getblockhash/5";
 		it('should throw when incoret route given', function(done){
 			request(url)
@@ -14,6 +14,13 @@ var url = "http://localhost:" + config.get('Web.port');
 				err.should.be.Error();
 				done();
 			});
+		});
+		it('should return a http status of 200 (OK)', function(done){
+			request(url)
+			.get(route)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200,done);
 		});
 		it('should return a string', function(done){
 			request(url)

@@ -4,8 +4,8 @@ var config = require("config");
 
 describe('bitcoind rpc call restful API routing tests:', function(){
 var url = "http://localhost:" + config.get('Web.port');
-	describe('/api/bitcoind/getblock/:hash tests:', function(done){
-		var route = "/api/bitcoind/getblock/000000009b7262315dbf071787ad3656097b892abffd1f95a1a022f896f533fc";
+	describe('/api/bitcoind/getrawtransaction/:txid tests:', function(done){
+		var route = "/api/bitcoind/getrawtransaction/0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098";
 		it('should throw when incoret route given', function(done){
 			request(url)
 			.get("/something/bad")
@@ -33,6 +33,28 @@ var url = "http://localhost:" + config.get('Web.port');
 				done();
 			});
 		});
+		it('returned object should have attribute hex' , function(done){
+			request(url)
+			.get(route)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.end(function(err, res){
+				res.body.hex.should.not.be.null();
+				done();
+			})
+		});
+		it('returned object should have attribute txid' , function(done){
+			request(url)
+			.get(route)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.end(function(err, res){
+				res.body.txid.should.not.be.null();
+				done();
+			})
+		});
 		it('returned object should have attribute hash' , function(done){
 			request(url)
 			.get(route)
@@ -44,69 +66,69 @@ var url = "http://localhost:" + config.get('Web.port');
 				done();
 			})
 		});
-		it('returned object should have attribute confirmations' , function(done){
+		it('returned object should have attribute version' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.confirmations.should.not.be.null();
+				res.body.version.should.not.be.null();
 				done();
 			})
 		});
-		it('returned object should have attribute height' , function(done){
+		it('returned object should have attribute locktime' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.height.should.not.be.null();
+				res.body.locktime.should.not.be.null();
 				done();
 			})
 		});
-		it('returned object should have attribute merkleroot' , function(done){
+		it('returned object should have attribute vin' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.merkleroot.should.not.be.null();
+				res.body.vin.should.not.be.null();
 				done();
 			})
 		});
-		it('returned object should have attribute tx' , function(done){
+		it('returned object should have attribute vout' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.tx.should.not.be.null();
+				res.body.vout.should.not.be.null();
 				done();
 			})
 		});
-		it('returned object should have attribute previousblockhash' , function(done){
+		it('returned object should have attribute blockhash' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.previousblockhash.should.not.be.null();
+				res.body.blockhash.should.not.be.null();
 				done();
 			})
 		});
-		it('returned object should have attribute nextblockhash' , function(done){
+		it('returned object should have attribute time' , function(done){
 			request(url)
 			.get(route)
 			.set('Accept', 'application/json')
 			.expect('Content-Type', /json/)
 			.expect(200)
 			.end(function(err, res){
-				res.body.nextblockhash.should.not.be.null();
+				res.body.time.should.not.be.null();
 				done();
 			})
 		});

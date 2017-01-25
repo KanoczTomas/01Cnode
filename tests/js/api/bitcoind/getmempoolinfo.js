@@ -15,6 +15,13 @@ var url = "http://localhost:" + config.get('Web.port');
 				done();
 			});
 		});
+		it('should return a http status of 200 (OK)', function(done){
+			request(url)
+			.get(route)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200,done);
+		});
 		it('should return a json object', function(done){
 			request(url)
 			.get(route)
