@@ -1,5 +1,6 @@
 Web:
   port: 5000
+Client:
   appName: raspinodemon
 RPC:
   host: localhost
