@@ -8,6 +8,7 @@ bitcoind.get('/getrawmempool', require("./getrawmempool"));
 bitcoind.get('/getmempoolentry/:hash', require("./getmempoolentry"));
 bitcoind.get('/getblockhash/:index', require("./getblockhash"));
 bitcoind.get('/getblock/:hash', require("./getblock"));
+bitcoind.get('/estimatefee/:nblocks', require("./estimatefee"));
 
 module.exports = bitcoind;
 
