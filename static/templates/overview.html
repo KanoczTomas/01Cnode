@@ -1,3 +1,25 @@
+<table class="table">
+  <caption class="text-center">Connected peers</caption>
+  <thead>
+    <tr>
+      <th class="text-center">#</th>
+      <th class="text-center">address</th>
+      <th class="text-center">local address</th>
+      <th class="text-center">client version</th>
+      <th class="text-center">connection type</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="peer in peers" class="text-center">
+    <td class="text-center">{{$index+1}}</th>
+    <td>{{peer.addr}}</th>
+    <td>{{peer.addrlocal}}</th>
+    <td class="text-center">{{peer.subver}}</th>
+    <td class="text-center"><button class="btn btn-success" ng-show="peer.inbound"><strong>&nbsp;in&nbsp;</strong></button><button class="btn btn-danger" ng-hide="peer.inbound"><strong>out</strong></button></th>
+  </tr>
+  </tbody>
+</table>
+
 <pre>
 There will be an autorefresh every 5 seconds, can be toggled in a dropdown menu.
 then every node will be there with specific info:

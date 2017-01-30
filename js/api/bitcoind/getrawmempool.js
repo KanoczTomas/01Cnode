@@ -6,7 +6,10 @@ bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.
 module.exports = function(req, res, next){
 	bitcoinRPC.setTimeout(2000);
 	bitcoinRPC.call('getrawmempool', [], function(err, value){
-		if(err !== null) throw(Error(err));
+		if(err !== null){
+			res.status(404).json(err);
+			next();
+		}
 		else{
 			res.status(200).json(value.result);
 			next();
