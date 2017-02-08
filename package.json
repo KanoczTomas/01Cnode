@@ -27,6 +27,7 @@
   "dependencies": {
     "angular": "^1.6.1",
     "angular-ui-router": "^0.4.2",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "config": "^1.24.0",
     "express": "^4.14.0",

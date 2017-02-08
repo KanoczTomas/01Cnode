@@ -1,16 +1,35 @@
 var bitcoind = require("express").Router();
+var config = require("config");
+var bitcoinRPC = require("node-bitcoin-rpc");
 
-bitcoind.get('/getinfo', require("./getinfo"));
-bitcoind.get('/getpeerinfo', require("./getpeerinfo"));
-bitcoind.get('/getnetworkinfo', require("./getnetworkinfo"));
-bitcoind.get('/getmempoolinfo', require("./getmempoolinfo"));
-bitcoind.get('/getrawmempool', require("./getrawmempool"));
-bitcoind.get('/getmempoolentry/:hash', require("./getmempoolentry"));
-bitcoind.get('/getblockhash/:index', require("./getblockhash"));
-bitcoind.get('/getblock/:hash', require("./getblock"));
-bitcoind.get('/estimatefee/:nblocks', require("./estimatefee"));
-bitcoind.get('/getrawtransaction/:txid', require("./getrawtransaction"));
+bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
+
+config.get('Api.restCalls').forEach(function(entry){
+    
+    bitcoind.get(entry.uri, function(req, res) {
+        var inputString = [];
+        if(entry.inputType === 'string'){
+            inputString.push(req.params[entry.inputName]);
+        }
+        else if(entry.inputType === 'number'){
+            inputString.push(Number(req.params[entry.inputName]));
+        }
+        if(entry.verbose === true){
+            inputString.push(1);
+        }
+        if(entry.timeout){
+            bitcoinRPC.setTimeout(entry.timeout);
+        }
+                
+        bitcoinRPC.call(entry.callName, inputString, function (error, value) {
+           if(error) {
+               res.sendStatus(404).end();
+            }
+            else{
+                res.status(200).json(value.result).end();
+            }
+        });
+    })
+});
 
 module.exports = bitcoind;
-
-//I shouild create a factory for bitcoind commands and call it, if there is an error I will return 404, if not I will call the method and return the status - I decided not to do it like that, due to security. One might misusse that, so I am creating all the cals statically.
