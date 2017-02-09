@@ -1,7 +1,4 @@
 .loader {
-    /*position: absolute;
-    top: 20%;
-    left: 50%;*/
     border: 8px solid #f3f3f3;
     border-top: 8px solid #3498db;
     border-radius: 50%;
@@ -24,16 +21,6 @@
     0%{transform: rotate(0deg);}
     100%{transform: rotate(720deg);}
 }
-@keyframes blink {
-    0% { opacity: .2;}
-    20% {opacity: 1;}
-    100% { opacity: .2;}
-}
-@-webkit-keyframes blink {
-    0% { opacity: .2;}
-    20% {opacity: 1;}
-    100% { opacity: .2;}
-}
 .loader-dots span {
     animation-name: blink;
     animation-duration: 1.4s;
@@ -53,4 +40,19 @@
 }
 .loader-dots span:nth-child(3) {
     animation-delay: .4s;
+}
+@keyframes blink {
+    0% { opacity: .2;}
+    20% {opacity: 1;}
+    100% { opacity: .2;}
+}
+@-webkit-keyframes blink {
+    0% { opacity: .2;}
+    20% {opacity: 1;}
+    100% { opacity: .2;}
+}
+@-ms-keyframes blink {
+    0% { opacity: .2;}
+    20% {opacity: 1;}
+    100% { opacity: .2;}
 }
