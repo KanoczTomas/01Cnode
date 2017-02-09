@@ -1,4 +1,3 @@
-var bitcoinRPC = require("node-bitcoin-rpc");
 var config = require("config");
 var express = require("express");
 var app = express();
@@ -30,9 +29,6 @@ if (cluster.isMaster) {
 
 // Code to run if we're in a worker process
 } else {
-
-
-    bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
 
     app.listen(config.get('Web.port'));
     app.use(morgan("dev"));

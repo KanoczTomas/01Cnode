@@ -21,11 +21,11 @@ Api:
       inputName: none
       inputType: none
       uri: '/getpeerinfo'
+      timeout: 4000
     - callName: getnetworkinfo
       inputName: none
       inputType: none
       uri: '/getnetworkinfo'
-      timeout: 4000
     - callName: getmempoolinfo
       inputName: none
       inputType: none

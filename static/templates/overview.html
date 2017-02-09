@@ -1,3 +1,4 @@
+<button class="btn btn-info" ng-click="refresh()">Refresh</button><em> - press to refresh list</em>
 <table class="table">
   <caption class="text-center">Connected peers</caption>
   <thead>
@@ -11,14 +12,17 @@
   </thead>
   <tbody>
   <tr ng-repeat="peer in peers" class="text-center">
-    <td class="text-center">{{$index+1}}</th>
-    <td>{{peer.addr}}</th>
-    <td>{{peer.addrlocal}}</th>
-    <td class="text-center">{{peer.subver}}</th>
-    <td class="text-center"><button class="btn btn-success" ng-show="peer.inbound"><strong>&nbsp;in&nbsp;</strong></button><button class="btn btn-danger" ng-hide="peer.inbound"><strong>out</strong></button></th>
+    <td class="text-center">{{$index+1}}</td>
+    <td>{{peer.addr}}</td>
+    <td>{{peer.addrlocal}}</td>
+    <td class="text-center">{{peer.subver}}</td>
+    <td class="text-center"><button class="btn btn-success" ng-show="peer.inbound"><strong>&nbsp;in&nbsp;</strong></button><button class="btn btn-danger" ng-hide="peer.inbound"><strong>out</strong></button></td>
   </tr>
   </tbody>
 </table>
+
+
+
 
 <pre>
 There will be an autorefresh every 5 seconds, can be toggled in a dropdown menu.
