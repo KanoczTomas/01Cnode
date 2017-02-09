@@ -10,7 +10,8 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 	})
 	.state("mempool", {
 		url: "/mempool",
-		templateUrl: "/templates/mempool.html"
+		templateUrl: "/templates/mempool.html",
+        controller: require("./controllers/mempoolCtrl")
 	})
 	.state("blockexplorer", {
 		url: "/blockexplorer",

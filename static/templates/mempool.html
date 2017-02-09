@@ -1,1 +1,16 @@
-this will be the mempool
+<table class="table table-responsive">
+    <caption class="text-center">Mempool entries: {{mempoolEntries.length || 0}}</caption>
+    <thead>
+        <tr>
+            <th>index</th>
+            <th class="text-center">txid</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="mempoolEntry in mempoolEntries">
+            <td>{{$index + 1}}</td>
+            <td class="text-center">{{mempoolEntry}}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="loader center-block" loading></div>
