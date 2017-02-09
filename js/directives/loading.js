@@ -20,7 +20,7 @@ app.directive('loading',   ['$http' ,function ($http)
                 }
             });
         },
-        template: "<div class=\"loader center-block\"></div><div class=\"text-center\">Loading ...</div>"
+        template: "<div class=\"loader center-block\"></div><div class=\"loader-dots text-center\">Loading <span>.</span><span>.</span><span>.</span></div>"
     };
 }]);
 module.exports = app;
