@@ -1,5 +1,5 @@
 <table class="table table-responsive">
-    <caption class="text-center">Mempool entries: {{mempoolEntries.length || 0}}</caption>
+    <caption class="text-center">Mempool entries: {{mempoolEntries.size|| 0}}</caption>
     <thead>
         <tr>
             <th>index</th>
@@ -7,10 +7,12 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="mempoolEntry in mempoolEntries">
+        <tr ng-repeat="mempoolEntry in mempoolEntriesssss">
             <td>{{$index + 1}}</td>
             <td class="text-center">{{mempoolEntry}}</td>
         </tr>
     </tbody>
 </table>
+<pre>{{mempoolEntries | json}}</pre>
+<p class="text-center">refreshed every 2 seconds ...</p>
 <div loading></div>
