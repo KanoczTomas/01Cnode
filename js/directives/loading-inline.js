@@ -4,6 +4,7 @@ var app = angular.module("directive.loading-inline",[]);
 
 app.directive('loading-inline',   ['$http' ,function ($http)
 {
+    console.log("loading-inline fired");
     return {
         restrict: 'A',
         link: function (scope, elm, attrs) {
@@ -19,7 +20,7 @@ app.directive('loading-inline',   ['$http' ,function ($http)
                     elm.hide();
                 }
             });
-            console.log("loading-inline fired");
+            
         },
         template: "<span class=\"loader-dots text-center\">Loading <span>.</span><span>.</span><span>.</span></span>"
     };
