@@ -1,8 +1,8 @@
 var angular = require("angular");
 
-var app = angular.module("directive.loading-inline",[]);
+var app = angular.module("directive.loadingInline",[]);
 
-app.directive('loading-inline',   ['$http' ,function ($http)
+app.directive('loadingInline',   ['$http' ,function ($http)
 {
     console.log("loading-inline fired");
     return {
@@ -22,7 +22,7 @@ app.directive('loading-inline',   ['$http' ,function ($http)
             });
             
         },
-        template: "<span class=\"loader-dots text-center\">Loading <span>.</span><span>.</span><span>.</span></span>"
+        template: "<span class=\"loader-dots text-center text-info\">Loading <span>.</span><span>.</span><span>.</span></span>"
     };
 }]);
 module.exports = app;
