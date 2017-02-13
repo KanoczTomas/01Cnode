@@ -19,6 +19,7 @@ app.directive('loading-inline',   ['$http' ,function ($http)
                     elm.hide();
                 }
             });
+            console.log("loading-inline fired")
         },
         template: "<span class=\"loader-dots text-center\">Loading <span>.</span><span>.</span><span>.</span></span>"
     };
