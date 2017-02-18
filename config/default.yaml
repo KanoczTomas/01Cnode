@@ -4,13 +4,22 @@ Web:
 
 Client:
   appName: raspinodemon
+  apiUrlStart: "/api/bitcoind"
 
 RPC:
-  host: 10.10.10.3
-  port: 8332
+  host: localhost
+  port: 18332
   rpc_username: bitcoinrpc
   rpc_password: djdjeei38384itmymykgg8f9rororkrkmrkrofofoeoe9woeidjdjekeoekdmd
-  
+
+Zmq:
+  socket: "tcp://127.0.0.1:28332"
+  events:
+    - "hashblock"
+    - "hashtx"
+    - "rawblock"
+    - "rawtx"
+
 Api:
   restCalls:
     - callName: getinfo

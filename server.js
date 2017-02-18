@@ -5,6 +5,8 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var api = require("./js/api");
 var cluster = require("cluster");
+var zmq = require('zeromq')
+var sock = zmq.socket('sub');
 
 
 // Code to run if we're in the master process
@@ -47,5 +49,15 @@ if (cluster.isMaster) {
         }, 100);
       });
     }
+
+    sock.connect(config.get('Zmq.socket'));
+    config.get('Zmq.events').forEach(function(event){
+       sock.subscribe(event); 
+    });
+    
+
+    sock.on('message', function(topic, message) {
+      //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
+    });
     
 }
