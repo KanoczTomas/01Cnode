@@ -4,7 +4,6 @@ var app = angular.module("directive.loadingInline",[]);
 
 app.directive('loadingInline',   ['$http' ,function ($http)
 {
-    console.log("loading-inline fired");
     return {
         restrict: 'A',
         link: function (scope, elm, attrs) {
