@@ -2,9 +2,26 @@ var bitcoind = require("express").Router();
 var config = require("config");
 var Promise = require("bluebird");
 var bitcoinRPC = require("node-bitcoin-rpc");
+var os = require("os");
 Promise.promisifyAll(bitcoinRPC);
 
 bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
+
+bitcoind.get("/status", function(req, res){
+	var info = {
+		arch: os.arch(),
+		cpus: os.cpus(),
+		freemem: os.freemem(),
+		uptime: os.uptime(),
+		totalmem: os.totalmem(),
+		platform: os.platform(),
+		release: os.release(),
+		hostname: os.hostname(),
+		networkInterfaces: os.networkInterfaces(),
+		loadavg: os.loadavg()
+	};
+	res.status(200).json(info).end();
+});
 
 config.get('Api.restCalls').forEach(function(entry){
     

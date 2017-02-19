@@ -7,13 +7,14 @@ var api = require("./js/api");
 var cluster = require("cluster");
 var zmq = require('zeromq')
 var sock = zmq.socket('sub');
+var os = require("os");
 
 
 // Code to run if we're in the master process
 if (cluster.isMaster) {
 
     // Count the machine's CPUs
-    var cpuCount = require('os').cpus().length;
+    var cpuCount = os.cpus().length;
 
     // Create a worker for each CPU
     for (var i = 0; i < cpuCount; i += 1) {
