@@ -5,6 +5,7 @@ Web:
 Client:
   appName: raspinodemon
   apiUrlStart: "/api/bitcoind"
+  pageName: "raspberrypi bitcoin fullnode"
 
 RPC:
   host: localhost

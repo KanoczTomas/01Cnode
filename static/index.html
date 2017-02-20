@@ -12,10 +12,10 @@
 </head>
 <body ng-app="raspinodemon">
 
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" ng-controller="indexCtrl">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">raspberrypi bitcoin full node</a>
+      <a class="navbar-brand" href="#">{{pageName}} <span ng-show="testnet" class="label label-danger">Testnet</span><span ng-hide="testnet" class="label label-success">Mainnet</span></a>
     </div>
     <ul class="nav navbar-nav">
       <li ui-sref-active="active"><a ui-sref="overview">Overview</a></li>

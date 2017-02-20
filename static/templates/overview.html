@@ -1,3 +1,20 @@
+<dl class="dl-horizontal">
+    <dt>uptime:</dt>
+    <dd>{{info.uptime|secondsToDateTime|date: 'HH:mm:ss'}}</dd>
+    <dt>platform:</dt>
+    <dd>{{info.platform}}</dd>
+    <dt>cpu model:</dt>
+    <dd>{{info.cpus[0].model}}</dd>
+    <dt>cpu count:</dt>
+    <dd>{{info.cpus.length}}</dd>
+    <dt>hostname:</dt>
+    <dd>{{info.hostname}}</dd>
+    <dt>totalmem:</dt>
+    <dd>{{info.totalmem}}</dd>
+    <dt>freemem:</dt>
+    <dd>{{info.freemem}}</dd>
+</dl>
+
 <button class="btn btn-info" ng-click="refresh()">Refresh</button><em> - press to refresh list</em>
 <table class="table table-responsive">
   <caption class="text-center">Connected peers</caption>
