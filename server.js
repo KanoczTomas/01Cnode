@@ -58,11 +58,21 @@ if (cluster.isMaster) {
        sock.subscribe(event); 
     });
     
-
+    io.on('connection', function(data){
+        console.log("data is: " + data) ;
+        console.log(data);
+    });
     sock.on('message', function(topic, message) {
-        if(topic.toString() === 'hashtx'){
-            io.emit(topic.toString(), {data: message.toString('hex')});
-        }
+        var events = [
+            'hashtx',
+            'hashblock'
+        ];
+        events.forEach(function(event){
+            if(topic.toString() === event){
+                io.emit(topic.toString(), {data: message.toString('hex')});
+            }
+        });
+        
       //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
     });
     
