@@ -18,6 +18,7 @@ bitcoind.get("/status", function(req, res){
 		release: os.release(),
 		hostname: os.hostname(),
 		networkInterfaces: os.networkInterfaces(),
+        networkInterfacesKeys: Object.keys(os.networkInterfaces()),
 		loadavg: os.loadavg()
 	};
 	res.status(200).json(info).end();

@@ -1,74 +1,56 @@
-<dl class="dl-horizontal">
-    <dt>uptime:</dt>
-    <dd>{{info.uptime|secondsToDateTime|date: 'HH:mm:ss'}}</dd>
-    <dt>platform:</dt>
-    <dd>{{info.platform}}</dd>
-    <dt>cpu model:</dt>
-    <dd>{{info.cpus[0].model}}</dd>
-    <dt>cpu count:</dt>
-    <dd>{{info.cpus.length}}</dd>
-    <dt>hostname:</dt>
-    <dd>{{info.hostname}}</dd>
-    <dt>totalmem:</dt>
-    <dd>{{info.totalmem}}</dd>
-    <dt>freemem:</dt>
-    <dd>{{info.freemem}}</dd>
-</dl>
-
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4">
+        <h3 class="text-center">System information</h3>
+        <dl class="dl-horizontal"> 
+            <dt>uptime:</dt>
+            <dd>{{info.uptime|secondsToDateTime|date: 'HH:mm:ss'}}</dd>
+            <dt>platform:</dt>
+            <dd>{{info.platform}}</dd>
+            <dt>cpu model:</dt>
+            <dd>{{info.cpus[0].model}}</dd>
+            <dt>cpu count:</dt>
+            <dd>{{info.cpus.length}}</dd>
+            <dt>hostname:</dt>
+            <dd>{{info.hostname}}</dd>
+            <dt>totalmem:</dt>
+            <dd>{{info.totalmem}}</dd>
+            <dt>freemem:</dt>
+            <dd>{{info.freemem}}</dd>
+        </dl>
+    </div>
+    <div class="col-sm-4">
+        <h3 class="text-center">Active interfaces</h3>
+        <dl ng-repeat="(intName, value) in info.networkInterfaces" ng-if="intName !== 'lo'" class="dl-horizontal"> <dt>{{intName}}</dt>
+            <dd>address: {{value[0].address}}</dd>
+            <dd>netmask: {{value[0].netmask}}</dd>
+        </dl>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
 <button class="btn btn-info" ng-click="refresh()">Refresh</button><em> - press to refresh list</em>
-<table class="table table-responsive">
-  <caption class="text-center">Connected peers</caption>
-  <thead>
-    <tr>
-      <th class="text-center">#</th>
-      <th class="text-center">address</th>
-      <th class="text-center">local address</th>
-      <th class="text-center">client version</th>
-      <th class="text-center">connection type</th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr ng-repeat="peer in peers" class="text-center">
-    <td class="text-center">{{$index+1}}</td>
-    <td>{{peer.addr}}</td>
-    <td>{{peer.addrlocal}}</td>
-    <td class="text-center">{{peer.subver}}</td>
-    <td class="text-center"><button class="btn btn-success" ng-show="peer.inbound"><strong>&nbsp;in&nbsp;</strong></button><button class="btn btn-danger" ng-hide="peer.inbound"><strong>out</strong></button></td>
-  </tr>
-  </tbody>
+<table class="table">
+    <caption class="text-center">Connected peers</caption>
+    <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">address</th>
+            <th class="text-center">local address</th>
+            <th class="text-center">client version</th>
+            <th class="text-center">connection type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="peer in peers" class="text-center">
+            <td class="text-center">{{$index+1}}</td>
+            <td>{{peer.addr}}</td>
+            <td>{{peer.addrlocal}}</td>
+            <td class="text-center">{{peer.subver}}</td>
+            <td class="text-center">
+                <button class="btn btn-success" ng-show="peer.inbound"><strong>&nbsp;in&nbsp;</strong></button>
+                <button class="btn btn-danger" ng-hide="peer.inbound"><strong>out</strong></button>
+            </td>
+        </tr>
+    </tbody>
 </table>
 <div loading></div>
-<pre>{{info|json}}</pre>
-
-
-<pre>
-There will be an autorefresh every 5 seconds, can be toggled in a dropdown menu.
-then every node will be there with specific info:
-
-{
-  "id": 5,
-  "addr": "47.89.31.46:8333",
-  "addrlocal": "217.12.62.213:50530",
-  "services": "000000000000000d",
-  "relaytxes": true,
-  "lastsend": 1484763077,
-  "lastrecv": 1484763071,
-  "bytessent": 9499284,
-  "bytesrecv": 18417144,
-  "conntime": 1484678615,
-  "timeoffset": -1,
-  "pingtime": 0.365141,
-  "minping": 0.354444,
-  "subver": "/Satoshi:0.13.2/",
-  "inbound": false,
-  }
-
-when clicked on an entry it should display all stats for that ID
-
-there will be an angular filter with a search to find stuff
-
-add info about the hw, disk space, cpu info, etc
-write the estimated fee on the webpage calling estimatefee when clicked (it will load the current estimated fee per rendering, it will be possible to choose the number of blocks)
-any other ideas here ...
-
-</pre>
