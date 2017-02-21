@@ -7,7 +7,6 @@ module.exports = ['$scope', '$http', '$interval', function ($scope, $http, $inte
     var timer;
     $http.get('api/bitcoind/status').then(function (res) {
         $scope.info = res.data;
-        console.log(res.data);
         if (!angular.isDefined(timer)) {
             timer = $interval(function () {
                 $scope.info.uptime += 1; //we add 1 second to uptime to fake it is live

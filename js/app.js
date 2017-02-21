@@ -4,6 +4,8 @@ require("./directives/loading");
 require("./directives/loadingInline");
 require("./controllers/indexCtrl");
 require("./filters/secondsToDateTime");
+require("./services/socket.io");
+
 
 
 var app = angular.module(config.get('Client.appName'),
@@ -11,7 +13,8 @@ var app = angular.module(config.get('Client.appName'),
     'directive.loading',
     'directive.loadingInline',
     'controller.indexCtrl',
-    'filter.secondsToDateTime'
+    'filter.secondsToDateTime',
+    'service.socket.io'
   ]
 );
 app.config(require("./states"));

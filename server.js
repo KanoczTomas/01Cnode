@@ -5,9 +5,11 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var api = require("./js/api");
 var cluster = require("cluster");
-var zmq = require('zeromq')
-var sock = zmq.socket('sub');
+var zmq = require("zeromq")
+var sock = zmq.socket("sub");
 var os = require("os");
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
 
 
 // Code to run if we're in the master process
@@ -33,7 +35,7 @@ if (cluster.isMaster) {
 // Code to run if we're in a worker process
 } else {
 
-    app.listen(config.get('Web.port'));
+    server.listen(config.get('Web.port'));
     app.use(morgan("dev"));
     app.use(bodyParser.json());
     console.log("server is now running on port " + config.get('Web.port'));
@@ -58,6 +60,9 @@ if (cluster.isMaster) {
     
 
     sock.on('message', function(topic, message) {
+        if(topic.toString() === 'hashtx'){
+            io.emit(topic.toString(), {data: message.toString('hex')});
+        }
       //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
     });
     

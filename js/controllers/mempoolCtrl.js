@@ -1,4 +1,4 @@
-module.exports = ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
+module.exports = ['$scope', '$http', '$interval', 'socketio', function ($scope, $http, $interval,socketio) {
     function loadMempool() {
         //$http.get("/api/bitcoind/getrawmempool")
         $http.get("/api/bitcoind/getmempoolinfo").then(function (res) {
@@ -16,5 +16,8 @@ module.exports = ['$scope', '$http', '$interval', function ($scope, $http, $inte
             $interval.cancel(timer);
             timer = undefined;
         }
+    });
+    socketio.on('hashtx', function(data){
+        console.log(data);
     });
 }];
