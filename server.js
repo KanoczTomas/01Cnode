@@ -10,7 +10,7 @@ var sock = zmq.socket("sub");
 var os = require("os");
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
-var compression = reqiore("compression");
+var compression = require("compression");
 
 
 // Code to run if we're in the master process
