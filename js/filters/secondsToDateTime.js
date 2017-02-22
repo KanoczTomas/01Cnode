@@ -8,7 +8,7 @@ app.filter('secondsToDateTime', function() {
     }
     
     function daysPlural(d){
-        return d > 1 ? d + " days " : d + " day ";
+        return d === 1 ? d + " day " : d + " days ";
     }
 
     return function(seconds) {

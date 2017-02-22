@@ -1,10 +1,9 @@
 <div class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <h3 class="text-center">System information</h3>
         <dl class="dl-horizontal"> 
             <dt>uptime:</dt>
-            <dd>{{info.uptime|secondsToDateTime|date: 'HH:mm:ss'}}</dd>
+            <dd>{{info.uptime|secondsToDateTime}}</dd>
             <dt>platform:</dt>
             <dd>{{info.platform}}</dd>
             <dt>cpu model:</dt>
@@ -19,14 +18,13 @@
             <dd>{{info.freemem}}</dd>
         </dl>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <h3 class="text-center">Active interfaces</h3>
         <dl ng-repeat="(intName, value) in info.networkInterfaces" ng-if="intName !== 'lo'" class="dl-horizontal"> <dt>{{intName}}</dt>
             <dd>address: {{value[0].address}}</dd>
             <dd>netmask: {{value[0].netmask}}</dd>
         </dl>
     </div>
-    <div class="col-sm-2"></div>
 </div>
 <button class="btn btn-info" ng-click="refresh()">Refresh</button><em> - press to refresh list</em>
 <table class="table">
