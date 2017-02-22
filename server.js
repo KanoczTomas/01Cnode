@@ -10,6 +10,7 @@ var sock = zmq.socket("sub");
 var os = require("os");
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
+var compression = reqiore("compression");
 
 
 // Code to run if we're in the master process
@@ -36,6 +37,7 @@ if (cluster.isMaster) {
 } else {
 
     server.listen(config.get('Web.port'));
+    app.use(compression());
     app.use(morgan("dev"));
     app.use(bodyParser.json());
     console.log("server is now running on port " + config.get('Web.port'));
@@ -59,8 +61,8 @@ if (cluster.isMaster) {
     });
     
     io.on('connection', function(data){
-        console.log("data is: " + data) ;
-        console.log(data);
+        //console.log("data is: " + data) ;
+        //console.log(data);
     });
     sock.on('message', function(topic, message) {
         var events = [
