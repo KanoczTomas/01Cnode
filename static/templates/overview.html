@@ -13,9 +13,9 @@
             <dt>hostname:</dt>
             <dd>{{info.hostname}}</dd>
             <dt>totalmem:</dt>
-            <dd>{{info.totalmem}}</dd>
+            <dd>{{info.totalmem|bytes}}</dd>
             <dt>freemem:</dt>
-            <dd>{{info.freemem}}</dd>
+            <dd>{{info.freemem|bytes}} ({{(info.freemem/info.totalmem * 100).toFixed(2)}}%)</dd>
         </dl>
     </div>
     <div class="col-sm-6">
