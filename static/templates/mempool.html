@@ -1,6 +1,6 @@
 <h4 class="text-center">Total mempool entries: {{mempoolEntries.size|| 0}}</h4>
 <table class="table table-responsive">
-    <caption class="text-center">Showing last {{showN}} transactions</caption>
+    <caption class="text-center">Showing last {{txes.length < showN ? txes.length : showN}} transactions</caption>
     <thead>
         <tr>
             <th>txid&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
