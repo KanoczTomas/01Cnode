@@ -45,7 +45,7 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
     socketio.on('hashblock', hashblockListerner);
     function hashblockListerner(data){
         loadMempool();
-    });
+    };
     
     $scope.$on("$destroy", function () {
         socketio.removeListener('hashblock', hashblockListerner);
