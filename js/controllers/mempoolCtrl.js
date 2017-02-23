@@ -12,13 +12,7 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
             loadMempool();
         }, 2000);
     }
-    $scope.$on("$destroy", function () {
-        if (angular.isDefined(timer)) {
-            $interval.cancel(timer);
-            timer = undefined;
-        }
-    });
-    
+
     $scope.log = [];
     $scope.txes = [];
     $scope.showN = 10;
@@ -38,7 +32,8 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         return sum.toFixed(8);
     }
     
-    socketio.on('hashtx', function(data){
+    socketio.on('hashtx', hashtxListener);
+    function hashtxListener(data){
         $scope.mempoolEntries.size += 1;
         $http.get('api/bitcoind/getrawtransaction/' + data.data)
         .then(function(res){
@@ -46,9 +41,20 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
             if($scope.txes.length > $scope.showN) $scope.txes.pop();    
             $scope.txes.unshift(res.data);
         });
-    });
-    socketio.on('hashblock', function(data){
+    };
+    socketio.on('hashblock', hashblockListerner);
+    function hashblockListerner(data){
         loadMempool();
     });
+    
+    $scope.$on("$destroy", function () {
+        socketio.removeListener('hashblock', hashblockListerner);
+        socketio.removeListener('hashtx', hashtxListener);
+        if (angular.isDefined(timer)) {
+            $interval.cancel(timer);
+            timer = undefined;
+        }
+    });
+    
     
 }];
