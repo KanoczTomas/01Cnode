@@ -43,7 +43,7 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         $http.get('api/bitcoind/getrawtransaction/' + data.data)
         .then(function(res){
             res.data.totalSent = countBTCsent(res.data);
-            if($scope.txes.length > $scope.showN) $scope.txes.shift();    
+            if($scope.txes.length > $scope.showN + 1) $scope.txes.shift();    
             $scope.txes.unshift(res.data);
         });
     });
