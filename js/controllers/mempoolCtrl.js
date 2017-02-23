@@ -25,7 +25,6 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
     function countBTCsent(tx){
         if(tx === null || tx === undefined) return;
         var sum = 0;
-        console.log(tx);
         tx.vout.forEach(function(vout){
             sum += vout.value;
         })
