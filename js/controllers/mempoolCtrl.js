@@ -1,4 +1,4 @@
-module.exports = ['$scope', '$http', '$interval', 'socketio', function ($scope, $http, $interval,socketio) {
+module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', function ($scope, $http, $interval, $timeout, socketio) {
     function loadMempool() {
         //$http.get("/api/bitcoind/getrawmempool")
         $http.get("/api/bitcoind/getmempoolinfo").then(function (res) {
@@ -20,14 +20,35 @@ module.exports = ['$scope', '$http', '$interval', 'socketio', function ($scope, 
     });
     
     $scope.log = [];
+    $scope.txes = [];
+    $scope.showN = 10;
+    
+    $scope.setCSSanimation = function(index){
+        if(index === $scope.showN) return "fade-out";
+        else return "fade-in";
+    }
+    
+    function countBTCsent(tx){
+        if(tx === null || tx === undefined) return;
+        var sum = 0;
+        console.log(tx);
+        tx.vout.forEach(function(vout){
+            sum += vout.value;
+        })
+        return sum.toFixed(8);
+    }
     
     socketio.on('hashtx', function(data){
         $scope.mempoolEntries.size += 1;
-        console.log(data);
+        $http.get('api/bitcoind/getrawtransaction/' + data.data)
+        .then(function(res){
+            res.data.totalSent = countBTCsent(res.data);
+            if($scope.txes.length > $scope.showN) $scope.txes.shift();    
+            $scope.txes.unshift(res.data);
+        });
     });
     socketio.on('hashblock', function(data){
         loadMempool();
-        $scope.log.push("there was a new block at: " + new Date());
     });
     
 }];

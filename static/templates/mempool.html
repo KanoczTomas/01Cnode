@@ -1,18 +1,17 @@
+<h4 class="text-center">Total mempool entries: {{mempoolEntries.size|| 0}}</h4>
 <table class="table table-responsive">
-    <caption class="text-center">Mempool entries: {{mempoolEntries.size|| 0}}</caption>
+    <caption class="text-center">Showing last {{showN}} transactions</caption>
     <thead>
         <tr>
-            <th>index</th>
-            <th class="text-center">txid</th>
+            <th>txid&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
+            <th>amount sent</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="mempoolEntry in mempoolEntriesssss">
-            <td>{{$index + 1}}</td>
-            <td class="text-center">{{mempoolEntry}}</td>
+        <tr ng-class="setCSSanimation($index)" ng-repeat="tx in txes">
+            <td>{{tx.txid}}</td>
+            <td>{{tx.totalSent}} BTC</td>
         </tr>
     </tbody>
 </table>
-<pre>{{mempoolEntries | json}}</pre>
 <div loading></div>
-<pre>{{log | json}}</pre>

@@ -17,12 +17,12 @@ var compression = require("compression");
 if (cluster.isMaster) {
 
     // Count the machine's CPUs
-    var cpuCount = os.cpus().length;
+//    var cpuCount = os.cpus().length;
 
     // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
+//    for (var i = 0; i < cpuCount; i += 1) {
+//        cluster.fork();
+//    }
     
     // Listen for dying workers
     cluster.on('exit', function (worker) {
@@ -30,11 +30,11 @@ if (cluster.isMaster) {
         // Replace the dead worker,
         // we're not sentimental
         console.log('Worker %d died :(', worker.id);
-        cluster.fork();
+    //    cluster.fork();
     });
 
 // Code to run if we're in a worker process
-} else {
+} //else {
 
     server.listen(config.get('Web.port'));
     app.use(compression());
@@ -78,4 +78,4 @@ if (cluster.isMaster) {
       //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
     });
     
-}
+//}
