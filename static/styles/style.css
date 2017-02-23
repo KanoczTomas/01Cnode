@@ -58,11 +58,11 @@
 }
 .fade-in {
     font-family: monospace;
-    animation: fadein 2s;
-    -webkit-animation: fadein 2s;
-    -moz-animation: fadein 2s;
-    -ms-animation: fadein 2s;
-    -o-animation: fadein 2s;
+    animation: fadein 1s;
+    -webkit-animation: fadein 1s;
+    -moz-animation: fadein 1s;
+    -ms-animation: fadein 1s;
+    -o-animation: fadein 1s;
 }
 
 @keyframes fadein {
@@ -88,11 +88,11 @@
 
 .fade-out {
     font-family: monospace;
-    animation: fadeout 2s;
-    -webkit-animation: fadeout 2s;
-    -moz-animation: fadeout 2s;
-    -ms-animation: fadeout 2s;
-    -o-animation: fadeout 2s;
+    animation: fadeout 1s;
+    -webkit-animation: fadeout 1s;
+    -moz-animation: fadeout 1s;
+    -ms-animation: fadeout 1s;
+    -o-animation: fadeout 1s;
     opacity: 0;
 }
 
