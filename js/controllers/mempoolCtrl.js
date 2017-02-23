@@ -23,7 +23,7 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
     }
     
     function countBTCsent(tx){
-        if(tx === null || tx === undefined) return;
+        if(tx === null || tx === undefined) return 0;
         var sum = 0;
         tx.vout.forEach(function(vout){
             sum += vout.value;
@@ -36,9 +36,11 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         $scope.mempoolEntries.size += 1;
         $http.get('api/bitcoind/getrawtransaction/' + data.data)
         .then(function(res){
-            res.data.totalSent = countBTCsent(res.data);
-            if($scope.txes.length > $scope.showN) $scope.txes.pop();    
-            $scope.txes.unshift(res.data);
+            if(res !== null || res !== undefined){
+                res.data.totalSent = countBTCsent(res.data);
+                if($scope.txes.length > $scope.showN) $scope.txes.pop();    
+                $scope.txes.unshift(res.data);
+            }
         });
     };
     socketio.on('hashblock', hashblockListerner);
