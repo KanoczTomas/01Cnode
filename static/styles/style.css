@@ -93,6 +93,7 @@
     -moz-animation: fadeout 2s;
     -ms-animation: fadeout 2s;
     -o-animation: fadeout 2s;
+    opacity: 0;
 }
 
 @keyframes fadeout {
