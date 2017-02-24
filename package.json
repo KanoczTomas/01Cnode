@@ -28,6 +28,7 @@
     "angular": "^1.6.1",
     "angular-socket-io": "^0.7.0",
     "angular-ui-router": "^0.4.2",
+    "bitcoinjs-lib": "^2.3.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",

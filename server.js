@@ -67,7 +67,8 @@ if (cluster.isMaster) {
     sock.on('message', function(topic, message) {
         var events = [
             'hashtx',
-            'hashblock'
+            'hashblock',
+            'rawtx'
         ];
         events.forEach(function(event){
             if(topic.toString() === event){

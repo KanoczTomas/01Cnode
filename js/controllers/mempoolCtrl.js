@@ -1,3 +1,5 @@
+var bjs = require("bitcoinjs-lib");
+
 module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', function ($scope, $http, $interval, $timeout, socketio) {
     function loadMempool() {
         //$http.get("/api/bitcoind/getrawmempool")
@@ -30,19 +32,23 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         })
         return sum.toFixed(8);
     }
-    
-    socketio.on('hashtx', hashtxListener);
-    function hashtxListener(data){
+
+    socketio.on('rawtx', rawtxListener);
+    function rawtxListener(data){
+        var tx = bjs.Transaction.fromHex(data.data);
+        tx.totalSent = 0;
+        tx.txid = tx.getId();
+        tx.outs.forEach(function(out){
+            tx.totalSent += out.value;
+        })
+        tx.totalSent = (tx.totalSent/100000000).toFixed(8); //we convert satoshi to BTC
         $scope.mempoolEntries.size += 1;
-        $http.get('api/bitcoind/getrawtransaction/' + data.data)
-        .then(function(res){
-            if(res !== null || res !== undefined){
-                res.data.totalSent = countBTCsent(res.data);
-                if($scope.txes.length > $scope.showN) $scope.txes.pop();    
-                $scope.txes.unshift(res.data);
-            }
-        });
-    };
+        if($scope.txes.length > $scope.showN) $scope.txes.pop();    
+        $scope.txes.unshift(tx);
+        console.log('rawtxListener fired');
+        
+    }
+    
     socketio.on('hashblock', hashblockListerner);
     function hashblockListerner(data){
         loadMempool();
@@ -50,7 +56,7 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
     
     $scope.$on("$destroy", function () {
         socketio.removeListener('hashblock', hashblockListerner);
-        socketio.removeListener('hashtx', hashtxListener);
+        socketio.removeListener('rawtx', rawtxListener);
         if (angular.isDefined(timer)) {
             $interval.cancel(timer);
             timer = undefined;
