@@ -45,8 +45,6 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         $scope.mempoolEntries.size += 1;
         if($scope.txes.length > $scope.showN) $scope.txes.pop();    
         $scope.txes.unshift(tx);
-        console.log('rawtxListener fired');
-        
     }
     
     socketio.on('hashblock', hashblockListerner);
