@@ -15,7 +15,12 @@
             <dt>totalmem:</dt>
             <dd>{{info.totalmem|bytes}}</dd>
             <dt>freemem:</dt>
-            <dd>{{info.freemem|bytes}} ({{(info.freemem/info.totalmem * 100).toFixed(2)}}%)</dd>
+            <dd>{{info.freemem|bytes}} ({{info.freemem/info.totalmem|percent}})</dd>
+            <dt>load:</dt>
+            <dd>5&nbsp;&nbsp; min. avg - <strong ng-class="setLoadCss(info.loadavg[0])">{{loadInPercent(info.loadavg[0])|percent}}</strong></dd>
+            <dd>10 min. avg - <strong ng-class="setLoadCss(info.loadavg[1])">{{loadInPercent(info.loadavg[1])|percent}}</strong></dd>
+            <dd>15 min. avg - <strong ng-class="setLoadCss(info.loadavg[2])">{{loadInPercent(info.loadavg[2])|percent}}</strong></dd>
+            
         </dl>
     </div>
     <div class="col-sm-6">

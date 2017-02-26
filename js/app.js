@@ -5,6 +5,7 @@ require("./directives/loadingInline");
 require("./controllers/indexCtrl");
 require("./filters/secondsToDateTime");
 require("./filters/bytes");
+require("./filters/percent");
 require("./services/socket.io");
 
 
@@ -16,6 +17,7 @@ var app = angular.module(config.get('Client.appName'),
     'controller.indexCtrl',
     'filter.secondsToDateTime',
     'filter.bytes',
+    'filter.percent',
     'service.socket.io'
   ]
 );

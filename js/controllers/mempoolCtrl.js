@@ -35,7 +35,15 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
 
     socketio.on('rawtx', rawtxListener);
     function rawtxListener(data){
-        var tx = bjs.Transaction.fromHex(data.data);
+        try {
+            var tx = bjs.Transaction.fromHex(data.data);
+        }
+        catch(e){
+            console.log(e);
+            console.log("probably a non standard tx - here is the dump of data: " + data.data);
+            console.log('check agains bitcoind - most of the time it is an op_return transaction')
+            return;
+        }
         tx.totalSent = 0;
         tx.txid = tx.getId();
         tx.outs.forEach(function(out){
