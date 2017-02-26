@@ -1,11 +1,11 @@
-module.exports = ['$scope', '$http', '$interval', function ($scope, $http, $interval) {
+module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', function ($scope, $http, $interval, apiUrlStart) {
     $scope.refresh = function () {
-        $http.get('/api/bitcoind/getpeerinfo').then(function (res) {
+        $http.get(apiUrlStart + '/getpeerinfo').then(function (res) {
             $scope.peers = res.data;
         });
     };
     var timer;
-    $http.get('api/bitcoind/status').then(function (res) {
+    $http.get(apiUrlStart + '/status').then(function (res) {
         $scope.info = res.data;
         if (!angular.isDefined(timer)) {
             timer = $interval(function () {
@@ -25,9 +25,7 @@ module.exports = ['$scope', '$http', '$interval', function ($scope, $http, $inte
         };
         
     });
-    
-    
-    
+        
     $scope.refresh();
     $scope.$on("$destroy", function () {
         if (angular.isDefined(timer)) {

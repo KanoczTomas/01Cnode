@@ -1,21 +1,13 @@
 var bjs = require("bitcoinjs-lib");
 
-module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', function ($scope, $http, $interval, $timeout, socketio) {
+module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope, $http, socketio, apiUrlStart) {
     function loadMempool() {
-        //$http.get("/api/bitcoind/getrawmempool")
-        $http.get("/api/bitcoind/getmempoolinfo").then(function (res) {
+        $http.get(apiUrlStart + "/getmempoolinfo").then(function (res) {
             $scope.mempoolEntries = res.data;
         });
     }
     loadMempool();
-    var timer = 0;
-    if (!angular.isDefined(timer)) {
-        var timer = $interval(function () {
-            loadMempool();
-        }, 2000);
-    }
 
-    $scope.log = [];
     $scope.txes = [];
     $scope.showN = 10;
     
@@ -24,15 +16,6 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
         else return "fade-in";
     }
     
-    function countBTCsent(tx){
-        if(tx === null || tx === undefined) return 0;
-        var sum = 0;
-        tx.vout.forEach(function(vout){
-            sum += vout.value;
-        })
-        return sum.toFixed(8);
-    }
-
     socketio.on('rawtx', rawtxListener);
     function rawtxListener(data){
         try {
@@ -63,10 +46,6 @@ module.exports = ['$scope', '$http', '$interval', '$timeout', 'socketio', functi
     $scope.$on("$destroy", function () {
         socketio.removeListener('hashblock', hashblockListerner);
         socketio.removeListener('rawtx', rawtxListener);
-        if (angular.isDefined(timer)) {
-            $interval.cancel(timer);
-            timer = undefined;
-        }
     });
     
     

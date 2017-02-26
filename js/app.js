@@ -1,14 +1,10 @@
 require("angular");
 var config = require("config");
-require("./directives/loading");
-require("./directives/loadingInline");
+require("./directives");
 require("./controllers/indexCtrl");
-require("./filters/secondsToDateTime");
-require("./filters/bytes");
-require("./filters/percent");
+require("./filters");
+require("./services");
 require("./services/socket.io");
-
-
 
 var app = angular.module(config.get('Client.appName'),
   [ require("angular-ui-router"),
@@ -18,8 +14,10 @@ var app = angular.module(config.get('Client.appName'),
     'filter.secondsToDateTime',
     'filter.bytes',
     'filter.percent',
-    'service.socket.io'
+    'service.socket.io',
+    'service.getInfoSrv'
   ]
 );
+
 app.config(require("./states"));
 app.constant('apiUrlStart', config.get('Client.apiUrlStart'));
