@@ -1,8 +1,9 @@
+'use strict';
+
 var angular = require("angular");
-
-var app = angular.module("directive.loading",[]);
-
-app.directive('loading',   ['$http' ,function ($http)
+var config = require("config");
+angular.module(config.get("Client.appName"))
+.directive('loading',   ['$http' ,function ($http)
 {
     return {
         restrict: 'A',
@@ -23,4 +24,3 @@ app.directive('loading',   ['$http' ,function ($http)
         template: "<div class=\"loader center-block\"></div><div class=\"loader-dots text-center\">Loading <span>.</span><span>.</span><span>.</span></div>"
     };
 }]);
-module.exports = app;

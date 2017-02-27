@@ -1,14 +1,16 @@
-module.exports = [ '$scope', '$http', '$interval', function($scope, $http, $interval){
+'use strict';
+
+module.exports = [ '$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', function($scope, $http, $interval, apiUrlStart, getInfoSrv){
     function loadBlock(){
-        $http.get("/api/bitcoind/getinfo")
+        $http.get(apiUrlStart + "/getinfo")
         .then(function(res){
             $scope.info= res.data;
         })
 		.then(function(){
-			return $http.get("/api/bitcoind/getblockhash/" + $scope.info.blocks);
+			return $http.get(apiUrlStart + "/getblockhash/" + $scope.info.blocks);
 		})
 		.then(function(res){
-		  return	$http.get("api/bitcoind/getblock/" + res.data);
+		  return	$http.get(apiUrlStart + "/getblock/" + res.data);
 		})
 		.then(function(res){
 			$scope.block = res.data;

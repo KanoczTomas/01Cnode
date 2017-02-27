@@ -1,8 +1,10 @@
+'use strict';
+
 var angular = require("angular");
+var config = require("config");
 
-var app = angular.module("directive.loadingInline",[]);
-
-app.directive('loadingInline',   ['$http' ,function ($http)
+angular.module(config.get("Client.appName"))
+.directive('loadingInline',   ['$http' ,function ($http)
 {
     return {
         restrict: 'A',
@@ -24,4 +26,3 @@ app.directive('loadingInline',   ['$http' ,function ($http)
         template: "<span class=\"loader-dots text-center text-info\">Loading <span>.</span><span>.</span><span>.</span></span>"
     };
 }]);
-module.exports = app;

@@ -1,11 +1,12 @@
-var angular = require('angular');
-var config = require('config');
-var app = angular.module('controller.indexCtrl', []);
+'use strict';
 
-app.controller('indexCtrl', ['$scope', '$http', function ($scope, $http) {
-    $http.get('/api/bitcoind/getinfo').then(function (res) {
-        $scope.testnet = res.data.testnet;
+var angular = require('angular');
+var config = require("config");
+
+angular.module(config.get('Client.appName'))
+.controller('indexCtrl', ['$scope', 'getInfoSrv', function ($scope, getInfoSrv) {
+    getInfoSrv.then(function(info){  
+        $scope.testnet = info.testnet;
+        $scope.pageName = info.pageName;
     });
-    $scope.pageName = config.get('Client.pageName');
 }]);
-module.exports = app;
