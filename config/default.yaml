@@ -20,6 +20,9 @@ Zmq:
     - "hashtx"
     - "rawblock"
     - "rawtx"
+    
+Bitcoin:
+  homeDir: '/mnt/bitcoindata/'
 
 Api:
   restCalls:
