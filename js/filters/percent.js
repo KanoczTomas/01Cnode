@@ -1,11 +1,9 @@
 var angular = require("angular");
+var config = require("config");
 
-var app = angular.module("filter.percent", []);
-
-app.filter("percent", function(){
+angular.module(config.get("Client.appName"))
+.filter("percent", function(){
     return function(value){
         return (value * 100).toFixed(2) + '%';
     }
 });
-
-module.exports = app;

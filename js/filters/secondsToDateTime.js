@@ -1,7 +1,8 @@
 var angular = require("angular");
-var app = angular.module("filter.secondsToDateTime", [])
+var config = require("config");
 
-app.filter('secondsToDateTime', function() {
+angular.module(config.get("Client.appName"))
+.filter('secondsToDateTime', function() {
 
     function padTime(t) {
         return t < 10 ? "0"+t : t;
@@ -23,7 +24,4 @@ app.filter('secondsToDateTime', function() {
         return daysPlural(days) + padTime(hours) + ":" + padTime(minutes) + ":" + padTime(seconds);
     };
 });
-
-module.exports = app;
-
 //code from http://stackoverflow.com/questions/28394572/angularjs-seconds-to-time-filter

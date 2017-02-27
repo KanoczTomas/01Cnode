@@ -1,7 +1,8 @@
 var angular = require("angular");
-var app = angular.module("filter.bytes", [])
+var config = require("config");
 
-app.filter('bytes', function() {
+angular.module(config.get("Client.appName"))
+.filter('bytes', function() {
 	return function(bytes, precision) {
 		if (bytes === 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 		if (typeof precision === 'undefined') precision = 2;
@@ -10,5 +11,3 @@ app.filter('bytes', function() {
 		return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 	}
 });
-
-module.exports = app;
