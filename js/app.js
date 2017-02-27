@@ -1,3 +1,5 @@
+'use strict';
+
 require("angular");
 var config = require("config");
 var socketio = require("angular-socket-io");

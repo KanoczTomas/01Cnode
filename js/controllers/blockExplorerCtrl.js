@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = [ '$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', function($scope, $http, $interval, apiUrlStart, getInfoSrv){
     function loadBlock(){
         $http.get(apiUrlStart + "/getinfo")

@@ -1,3 +1,5 @@
+'use strict';
+
 var bitcoind = require("express").Router();
 var config = require("config");
 var Promise = require("bluebird");

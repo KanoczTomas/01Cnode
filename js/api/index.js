@@ -1,3 +1,5 @@
+'use strict';
+
 var api = require("express").Router();
 var bitcoind = require("./bitcoind");
 

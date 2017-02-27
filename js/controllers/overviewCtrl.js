@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', function ($scope, $http, $interval, apiUrlStart) {
     $scope.refresh = function () {
         $http.get(apiUrlStart + '/getpeerinfo').then(function (res) {
