@@ -22,7 +22,7 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
         catch (e) {
             console.log(e);
             console.log("probably a non standard tx - here is the dump of data: " + data.data);
-            console.log('check agains bitcoind - this is a witness transaction')
+            console.log('check against bitcoind - this is a witness transaction')
             return;
         }
         tx.totalSent = 0;
