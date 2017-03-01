@@ -10,9 +10,8 @@ global.window.beforeEach = beforeEach;
 global.window.afterEach = afterEach;
 
 require('angular/angular');
-require('angular-mocks');
+require('angular-mocks/angular-mocks');
 
 global.angular = window.angular;
 global.inject = global.angular.mock.inject;
 global.ngModule = global.angular.mock.module;
-global.module = global.angular.mock.module;

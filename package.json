@@ -4,7 +4,7 @@
   "description": "tool to monitor raspinode",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --recursive tests/",
+    "test": "mocha --recursive tests/ ",
     "watch": "watchify js/app.js --poll=1000 -o static/bundle.js -vvv",
     "build": "browserify js/app.js | uglifyjs -mc warnings=false > static/bundle.js",
     "start": "nodemon --watch server.js --watch js/api"
@@ -31,6 +31,7 @@
     "bitcoinjs-lib": "^2.3.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
+    "cache-require-paths": "^0.3.0",
     "compression": "^1.6.2",
     "config": "^1.24.0",
     "express": "^4.14.0",

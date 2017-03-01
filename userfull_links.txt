@@ -1,2 +1,3 @@
 unit testing:
 https://www.smashingmagazine.com/2014/10/introduction-to-unit-testing-in-angularjs/
+https://medium.com/shyp-engineering/speeding-up-javascript-test-time-1000x-460c528418e7#.wh58icwd0

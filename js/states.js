@@ -8,6 +8,7 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 		url: "/overview",
 		templateUrl: "/templates/overview.html",
 		controller: require("./controllers/overviewCtrl"),
+        controllerAs: "overviewCtrl"
 	})
 	.state("mempool", {
 		url: "/mempool",
