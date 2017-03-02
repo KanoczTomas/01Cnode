@@ -1,16 +1,19 @@
 'use strict';
 var bjs = require("bitcoinjs-lib");
 module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope, $http, socketio, apiUrlStart) {
-    function loadMempool() {
+
+    
+    $scope.loadMempool = function() {
         $http.get(apiUrlStart + "/getmempoolinfo").then(function (res) {
             $scope.mempoolEntry = res.data;
         });
-    }
-    loadMempool();
+    };
+    $scope.loadMempool();
     $scope.txes = [];
     $scope.showN = 10;
     $scope.setCSSanimation = function (index) {
-        if (index === $scope.showN) return "fade-out";
+        if(index < 0 || index > $scope.showN) return '';
+        else if (index === $scope.showN) return "fade-out";
         else return "fade-in";
     }
     socketio.on('rawtx', rawtxListener);
@@ -44,4 +47,5 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
         socketio.removeListener('hashblock', hashblockListerner);
         socketio.removeListener('rawtx', rawtxListener);
     });
+    
 }];
