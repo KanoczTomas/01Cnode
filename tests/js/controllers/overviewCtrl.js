@@ -1,5 +1,4 @@
 'use strict';
-require("cache-require-paths");
 
 var config = require("config");
 var should = require("should");
@@ -53,21 +52,21 @@ describe('overviewCtrl', function(){
         $httpBackend.verifyNoOutstandingRequest();
     });
     
-    it.only('should GET ' + config.get('Client.apiUrlStart') + '/status and ' + config.get('Client.apiUrlStart'), function(){
+    it('should GET ' + config.get('Client.apiUrlStart') + '/status and ' + config.get('Client.apiUrlStart'), function(){
         //all is covered in the before hooks
     });
-    it.only('state should be overview', function(){
+    it('state should be overview', function(){
         $state.go(state);
         $state.current.name.should.be.equal(state);
     });
-    it.only('$scope.info should be an object', function(){
+    it('$scope.info should be an object', function(){
         scope.$apply(); //we mast call $scope.$apply() to resolve all promises in the controller $http is a promise
         should(scope.info).be.ok();
         scope.info.should.be.an.Object();
         scope.info.cpu.should.be.equal("a nice cpu");
         scope.info.uptime.should.be.equal(123123);
     });
-    it.only('$scope.peers should be an array of objects', function(){
+    it('$scope.peers should be an array of objects', function(){
         scope.$apply();
         should(scope.peers).be.ok();
         scope.peers.should.be.an.Array();
@@ -75,13 +74,13 @@ describe('overviewCtrl', function(){
         scope.peers[0].id.should.be.equal(0);
         scope.peers[1].id.should.be.equal(2);
     });
-    it.only('$scope.refresh() should fetch ' + config.get('Client.apiUrlStart') + '/getpeerinfo', function(){
+    it('$scope.refresh() should fetch ' + config.get('Client.apiUrlStart') + '/getpeerinfo', function(){
         scope.$apply();
         $httpBackend.expectGET(config.get('Client.apiUrlStart') + '/getpeerinfo');
         scope.refresh();
         $httpBackend.flush();
     });
-    it.only('should increment uptime every second', function(){
+    it('should increment uptime every second', function(){
         scope.$apply();
         scope.info.uptime = 100;
         $interval.flush(1000);
@@ -89,7 +88,7 @@ describe('overviewCtrl', function(){
         $interval.flush(1000);
         scope.info.uptime.should.be.equal(102);
     });
-    it.only('$scope.loadInPercent(load) should convert unix load to percent and be in interval [0,1]', function(){
+    it('$scope.loadInPercent(load) should convert unix load to percent and be in interval [0,1]', function(){
         scope.$apply();
         scope.info.cpus = {length: 4};
         scope.loadInPercent(2).should.be.equal(0.5);
@@ -98,7 +97,7 @@ describe('overviewCtrl', function(){
         scope.loadInPercent(4).should.be.equal(1);
         scope.loadInPercent(1).should.be.equal(0.25);
     })
-    it.only('$scope.setLoadCss(load) should return text-success when load % is [0,0.7)', function(){
+    it('$scope.setLoadCss(load) should return text-success when load % is [0,0.7)', function(){
         scope.$apply();
         scope.loadInPercent = function(){ return 0.5};
         scope.setLoadCss(2).should.be.equal("text-success");
@@ -113,7 +112,7 @@ describe('overviewCtrl', function(){
         scope.loadInPercent = function(){ return 0.7};
         scope.setLoadCss(1).should.not.be.equal("text-success");
     });
-    it.only('$scope.setLoadCss(load) should return text-warning when load % is [0.7,0.8)', function(){
+    it('$scope.setLoadCss(load) should return text-warning when load % is [0.7,0.8)', function(){
         scope.$apply();
         scope.loadInPercent = function(){return 0.7};
         scope.setLoadCss(1).should.be.equal("text-warning");
@@ -122,7 +121,7 @@ describe('overviewCtrl', function(){
         scope.loadInPercent = function(){return 0.756};
         scope.setLoadCss(1).should.be.equal("text-warning");
     });
-    it.only('$scope.setLoadCss(load) should return text-danger when load % is [0.8,1] or greather than 1, smaller than 0', function(){
+    it('$scope.setLoadCss(load) should return text-danger when load % is [0.8,1] or greather than 1, smaller than 0', function(){
         scope.$apply();
         scope.loadInPercent = function(){return 0.8};
         scope.setLoadCss(1).should.be.equal("text-danger");
@@ -139,7 +138,7 @@ describe('overviewCtrl', function(){
 
         
     });
-    it.only('should cancel $scope.timer on $destroy event', function(){
+    it('should cancel $scope.timer on $destroy event', function(){
         scope.$apply();
         scope.info.uptime = 1;
         $interval.flush(2000);
