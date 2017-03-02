@@ -3,7 +3,7 @@ var bjs = require("bitcoinjs-lib");
 module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope, $http, socketio, apiUrlStart) {
     function loadMempool() {
         $http.get(apiUrlStart + "/getmempoolinfo").then(function (res) {
-            $scope.mempoolEntries = res.data;
+            $scope.mempoolEntry = res.data;
         });
     }
     loadMempool();

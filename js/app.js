@@ -1,6 +1,5 @@
 'use strict';
 
-require("cache-require-paths");
 require("angular");
 var config = require("config");
 var socketio = require("angular-socket-io");

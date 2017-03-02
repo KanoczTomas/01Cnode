@@ -4,7 +4,7 @@
   "description": "tool to monitor raspinode",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --recursive tests/ --require cache-require-paths",
+    "test": "mocha --recursive tests/",
     "watch": "watchify js/app.js --poll=1000 -o static/bundle.js -vvv",
     "build": "browserify js/app.js | uglifyjs -mc warnings=false > static/bundle.js",
     "start": "nodemon --watch server.js --watch js/api"
