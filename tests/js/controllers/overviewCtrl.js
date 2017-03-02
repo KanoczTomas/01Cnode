@@ -8,99 +8,42 @@ require("../../../js/app.js");
 
 describe('overviewCtrl', function(){
     var $httpBackend, $rootScope, createController, requestHandler, state = "overview", $state;
+    var scope, $interval;
     
     beforeEach(ngModule(config.get('Client.appName')));
     beforeEach(inject(function ($injector){
         $httpBackend = $injector.get('$httpBackend');
-        $httpBackend.when('GET', config.get('Client.apiUrlStart') + '/getinfo')
-        .respond(200,[
-            {
-                "id": 2,
-                "addr": "159.8.86.189:18333",
-                "addrlocal": "217.12.62.213:59326",
-                "version": 70015,
-                "subver": "/Satoshi:0.13.1/",
-                "inbound": false,
-            },
-            {
-                "id": 4,
-                "addr": "127.0.0.1:18333",
-                "addrlocal": "217.12.62.213:59329",
-                "version": 70015,
-                "subver": "/Satoshi:0.13.2/",
-                "inbound": true,
-            }
-            
-        ]);
-        $httpBackend.when('GET', config.get('Client.apiUrlStart') + '/status')
-        .respond(200,[
-            {
-            "arch": "arm",
-            "cpus": [
-                {
-                "model": "ARMv7 Processor rev 4 (v7l)",
-                }
-            ],
-            "freemem": 120983552,
-            "uptime": 58465,
-            "totalmem": 1020366848,
-            "platform": "linux",
-            "hostname": "raspbinode",
-            "networkInterfaces": {
-                "lo": [
-                    {
-                    "address": "127.0.0.1",
-                    "netmask": "255.0.0.0",
-                    "family": "IPv4",
-                    "mac": "00:00:00:00:00:00",
-                    "internal": true
-                    },
-                    {
-                    "address": "::1",
-                    "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
-                    "family": "IPv6",
-                    "mac": "00:00:00:00:00:00",
-                    "scopeid": 0,
-                    "internal": true
-                    }
-                ],
-                "wlan0": [
-                    {
-                    "address": "192.168.2.140",
-                    "netmask": "255.255.255.0",
-                    "family": "IPv4",
-                    "mac": "b8:27:eb:81:b9:3a",
-                    "internal": false
-                    },
-                    {
-                    "address": "fe80::c46c:711a:e50c:9e36",
-                    "netmask": "ffff:ffff:ffff:ffff::",
-                    "family": "IPv6",
-                    "mac": "b8:27:eb:81:b9:3a",
-                    "scopeid": 3,
-                    "internal": false
-                    }
-                ],
-            },
-            "loadavg": [
-                0.27978515625,
-                0.10009765625,
-                0.02490234375
-            ],
-            "blockchainSize": 11567391398
-            }             
-        ]);
         $rootScope = $injector.get('$rootScope');
         $state = $injector.get('$state');
+        $interval = $injector.get('$interval')
         var $templateCache = $injector.get('$templateCache');
         $templateCache.put('/templates/overview.html', '');
         
         var $controller = $injector.get('$controller');
-        createController = function(){
+        scope = $rootScope.$new();
+        createController = function(scope){
             return $injector.instantiate($state.get(state).controller,{
-                "$scope": $rootScope.$new()
+                "$scope": scope
             });
         };
+        createController(scope);
+        
+        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/status')
+        .respond({
+            cpu: "a nice cpu" ,
+            uptime: 123123
+        });
+        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getpeerinfo').respond([
+            {
+                id: 0,
+                ip: "127.0.0.1"
+            },
+            {
+                id: 2,
+                ip: "127.0.0.2"
+            }
+        ]);        
+        $httpBackend.flush();//when called all $http.get methods fire in the controller and return mocked responses
         
     }));
     
@@ -110,15 +53,101 @@ describe('overviewCtrl', function(){
         $httpBackend.verifyNoOutstandingRequest();
     });
     
+    it.only('should GET ' + config.get('Client.apiUrlStart') + '/status and ' + config.get('Client.apiUrlStart'), function(){
+        //all is covered in the before hooks
+    });
     it.only('state should be overview', function(){
         $state.go(state);
-        $rootScope.$digest();
         $state.current.name.should.be.equal(state);
     });
-    it.only('should GET ' + config.get('Client.apiUrlStart') + '/status then ' + config.get('Client.apiUrlStart') + '/getpeerinfo' , function(){
-        var controller = createController();
-	$httpBackend.expectGET(config.get('Client.apiUrlStart') + '/status').respond(200);
-	$httpBackend.expectGET(config.get('Client.apiUrlStart') + '/getpeerinfo').respond(200);
-        $httpBackend.flush();        
+    it.only('$scope.info should be an object', function(){
+        scope.$apply(); //we mast call $scope.$apply() to resolve all promises in the controller $http is a promise
+        should(scope.info).be.ok();
+        scope.info.should.be.an.Object();
+        scope.info.cpu.should.be.equal("a nice cpu");
+        scope.info.uptime.should.be.equal(123123);
     });
-})
+    it.only('$scope.peers should be an array of objects', function(){
+        scope.$apply();
+        should(scope.peers).be.ok();
+        scope.peers.should.be.an.Array();
+        scope.peers.length.should.be.equal(2);
+        scope.peers[0].id.should.be.equal(0);
+        scope.peers[1].id.should.be.equal(2);
+    });
+    it.only('$scope.refresh() should fetch ' + config.get('Client.apiUrlStart') + '/getpeerinfo', function(){
+        scope.$apply();
+        $httpBackend.expectGET(config.get('Client.apiUrlStart') + '/getpeerinfo');
+        scope.refresh();
+        $httpBackend.flush();
+    });
+    it.only('should increment uptime every second', function(){
+        scope.$apply();
+        scope.info.uptime = 100;
+        $interval.flush(1000);
+        scope.info.uptime.should.be.equal(101);
+        $interval.flush(1000);
+        scope.info.uptime.should.be.equal(102);
+    });
+    it.only('$scope.loadInPercent(load) should convert unix load to percent and be in interval [0,1]', function(){
+        scope.$apply();
+        scope.info.cpus = {length: 4};
+        scope.loadInPercent(2).should.be.equal(0.5);
+        scope.loadInPercent(1000).should.be.aboveOrEqual(0).and.belowOrEqual(1);
+        scope.loadInPercent(-1000).should.be.aboveOrEqual(0).and.belowOrEqual(1);
+        scope.loadInPercent(4).should.be.equal(1);
+        scope.loadInPercent(1).should.be.equal(0.25);
+    })
+    it.only('$scope.setLoadCss(load) should return text-success when load % is [0,0.7)', function(){
+        scope.$apply();
+        scope.loadInPercent = function(){ return 0.5};
+        scope.setLoadCss(2).should.be.equal("text-success");
+        scope.loadInPercent = function(){ return 0.25};
+        scope.setLoadCss(1).should.be.equal("text-success");
+        scope.loadInPercent = function(){ return 1.0};
+        scope.setLoadCss(4).should.not.be.equal("text-success");
+        scope.loadInPercent = function(){ return -250.0};
+        scope.setLoadCss(-300).should.not.be.equal("text-success");
+        scope.loadInPercent = function(){ return 0.699};
+        scope.setLoadCss(1).should.be.equal("text-success");
+        scope.loadInPercent = function(){ return 0.7};
+        scope.setLoadCss(1).should.not.be.equal("text-success");
+    });
+    it.only('$scope.setLoadCss(load) should return text-warning when load % is [0.7,0.8)', function(){
+        scope.$apply();
+        scope.loadInPercent = function(){return 0.7};
+        scope.setLoadCss(1).should.be.equal("text-warning");
+        scope.loadInPercent = function(){return 0.8};
+        scope.setLoadCss(1).should.not.be.equal("text-warning");
+        scope.loadInPercent = function(){return 0.756};
+        scope.setLoadCss(1).should.be.equal("text-warning");
+    });
+    it.only('$scope.setLoadCss(load) should return text-danger when load % is [0.8,1] or greather than 1, smaller than 0', function(){
+        scope.$apply();
+        scope.loadInPercent = function(){return 0.8};
+        scope.setLoadCss(1).should.be.equal("text-danger");
+        scope.loadInPercent = function(){return 1.0};
+        scope.setLoadCss(1).should.be.equal("text-danger");
+        scope.loadInPercent = function(){return 1000.0};
+        scope.setLoadCss(1).should.be.equal("text-danger");
+        scope.loadInPercent = function(){return -1000.0};
+        scope.setLoadCss(1).should.be.equal("text-danger");
+        scope.loadInPercent = function(){return 0.05};
+        scope.setLoadCss(1).should.not.be.equal("text-danger");
+        scope.loadInPercent = function(){return 0.71};
+        scope.setLoadCss(1).should.not.be.equal("text-danger");
+
+        
+    });
+    it.only('should cancel $scope.timer on $destroy event', function(){
+        scope.$apply();
+        scope.info.uptime = 1;
+        $interval.flush(2000);
+        scope.info.uptime.should.be.equal(3);
+        scope.timer.should.be.ok();
+        scope.$emit('$destroy');
+        $interval.flush(2000);
+        scope.info.uptime.should.be.equal(3);
+        should(scope.timer).be.equal(undefined);
+    })
+});
