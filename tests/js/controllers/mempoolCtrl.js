@@ -4,19 +4,42 @@ var config = require("config");
 var should = require("should");
 var util = require("util");
 var EventEmitter = require("events");
+var sinon = require("sinon");
+var proxyquire = require("proxyquire");
 require("../angular-helper");
-require("../../../js/app.js")
+proxyquire("../../../js/controllers/mempoolCtrl", { 
+    'bitcoinjs-lib': {
+        Transaction: {
+            fromHex: function(data){
+                return {
+                    getId: function(){
+                        return 'a unique id';
+                    },
+                    outs: [
+                        {
+                            value: 100000000
+                        },
+                        {
+                            value: 300000000
+                        }
+                    ]
+                }
+            }
+        }
+    }
+});
+require("../../../js/app");
 
-function SocketIO(){
+function SocketIO(){ //we are mocking the socketio service
     EventEmitter.call(this);
 }
 
-util.inherits(SocketIO, EventEmitter);
+util.inherits(SocketIO, EventEmitter);//we want it to have events
 
 
 describe('mempoolCtrl', function(){
     var $httpBackend, $rootScope, createController, state = "mempool", $state;
-    var scope;
+    var scope, socketio;
     
     beforeEach(ngModule(config.get('Client.appName')));
     
@@ -33,6 +56,7 @@ describe('mempoolCtrl', function(){
     beforeEach(inject(function ($injector){
         $httpBackend = $injector.get('$httpBackend');
         $rootScope = $injector.get('$rootScope');
+        socketio = $injector.get('socketio');
         $state = $injector.get('$state');
         $state.go(state);//we have to go to the state as it is not jumped to automatically, the overview state is the default
         var $templateCache = $injector.get('$templateCache');
@@ -92,7 +116,17 @@ describe('mempoolCtrl', function(){
         scope.setCSSanimation(2).should.be.equal('fade-in');
         scope.setCSSanimation(3).should.not.be.equal('fade-in');
         scope.setCSSanimation(4).should.not.be.equal('fade-in');
-        
+    });
+    it.only('$scope.rawtxListener() should be called when rawtx event received', function(){
+        socketio.removeListener('rawtx', scope.rawtxListener);//we remove the original method as it is bound undecorated to socketio
+        var rawtxListener = sinon.spy(scope, 'rawtxListener');//we decorate the rawtxListener with a spy
+        socketio.on('rawtx', rawtxListener);//we reattach the listener to the event
+        socketio.emit('rawtx', {data: 'some strange data'});
+        socketio.emit('rawtx', {data: 'some strange data'});
+        sinon.assert.calledTwice(rawtxListener);
+        sinon.assert.calledWith(rawtxListener, {data: 'some strange data'});
+        scope.mempoolEntry.size.should.be.equal(1002);
+        rawtxListener.restore();
     });
     
     //do more tests for poping when there are showN+1 elements, not poping when there are less, etc.
