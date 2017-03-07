@@ -13,7 +13,8 @@ proxyquire("../../../js/controllers/mempoolCtrl", {
             fromHex: function(data){
                 return {
                     getId: function(){
-                        return 'a unique id';
+                        if(typeof data !== 'string') data = 'a unique id'
+                        return data;
                     },
                     outs: [
                         {
@@ -21,6 +22,9 @@ proxyquire("../../../js/controllers/mempoolCtrl", {
                         },
                         {
                             value: 300000000
+                        },
+                        {
+                            value: 10
                         }
                     ]
                 }
@@ -82,34 +86,34 @@ describe('mempoolCtrl', function(){
         $httpBackend.verifyNoOutstandingRequest();
     });
     
-    it.only('should GET ' + config.get('Client.apiUrlStart') + '/getmempoolinfo', function(){
+    it('should GET ' + config.get('Client.apiUrlStart') + '/getmempoolinfo', function(){
         //all handled in before hooks
     });
     
-    it.only('state should be mempool', function(){
+    it('state should be mempool', function(){
         $state.current.name.should.be.equal(state);
     });
-    it.only('$scope.loadMempool should fetch ' + config.get('Client.apiUrlStart') + '/getmempoolinfo', function(){
+    it('$scope.loadMempool should fetch ' + config.get('Client.apiUrlStart') + '/getmempoolinfo', function(){
         scope.loadMempool();
         $httpBackend.expectGET(config.get('Client.apiUrlStart') + '/getmempoolinfo');
         scope.loadMempool();
         $httpBackend.expectGET(config.get('Client.apiUrlStart') + '/getmempoolinfo');
         $httpBackend.flush();
     });
-    it.only('$scope.txes should be an Array', function(){
+    it('$scope.txes should be an Array', function(){
         scope.txes.should.be.Array();
     });
-    it.only('$scope.showN should be a Number', function(){
+    it('$scope.showN should be a Number', function(){
         scope.showN.should.be.a.Number();
     });
-    it.only('$scope.setCSSanimation() should return empty string when index out of range', function(){
+    it('$scope.setCSSanimation() should return empty string when index out of range', function(){
     
         scope.setCSSanimation(11).should.be.equal('');
         scope.setCSSanimation(-5).should.be.equal('');
         scope.showN = 20;
         scope.setCSSanimation(11).should.not.be.equal('');
     });
-    it.only('$scope.setCSSanimation() should return fade-in if index is [0,$scope.showN)', function(){
+    it('$scope.setCSSanimation() should return fade-in if index is [0,$scope.showN)', function(){
         scope.showN = 3;
         scope.setCSSanimation(0).should.be.equal('fade-in');
         scope.setCSSanimation(1).should.be.equal('fade-in');
@@ -117,7 +121,7 @@ describe('mempoolCtrl', function(){
         scope.setCSSanimation(3).should.not.be.equal('fade-in');
         scope.setCSSanimation(4).should.not.be.equal('fade-in');
     });
-    it.only('$scope.rawtxListener() should be called when rawtx event received', function(){
+    it('$scope.rawtxListener() should be called when rawtx event received', function(){
         socketio.removeListener('rawtx', scope.rawtxListener);//we remove the original method as it is bound undecorated to socketio
         var rawtxListener = sinon.spy(scope, 'rawtxListener');//we decorate the rawtxListener with a spy
         socketio.on('rawtx', rawtxListener);//we reattach the listener to the event
@@ -128,8 +132,76 @@ describe('mempoolCtrl', function(){
         scope.mempoolEntry.size.should.be.equal(1002);
         rawtxListener.restore();
     });
-    
-    //do more tests for poping when there are showN+1 elements, not poping when there are less, etc.
+    it('should not pop transactions from Array tx until there are showN+1 elements', function(){
+        scope.txes.length.should.be.equal(0);
+        var data = {data: 'test'};
+        for(var i = 0; i<scope.showN+1;i++){
+            scope.rawtxListener(data);    
+            scope.txes.length.should.be.equal(i+1);
+        }
+        scope.rawtxListener(data);
+        scope.rawtxListener(data);
+        scope.txes.length.should.be.equal(scope.showN+1);
+    });
+    it('should count the total value sent in transactions', function(){
+        var data = {data: 'test'};
+        scope.rawtxListener(data);
+        scope.txes[0].totalSent.should.be.equal('4.00000010');
+    });
+    it('should increase $scope.mempoolEntry.size by one when rawtx event received', function(){
+        scope.mempoolEntry.size.should.be.equal(1000);
+        scope.rawtxListener({data: 'test'});
+        scope.rawtxListener({data: 'test'});
+        scope.mempoolEntry.size.should.be.equal(1002);
+        
+    });
+    it('txid property of tx within $scope.rawtxListener should be set correctly', function(){
+        scope.rawtxListener({data: 'test'});
+        scope.txes[0].txid.should.be.equal('test');
+        
+    });
+    it('transaction on a rawtx event should go to position 0', function(){
+        scope.txes.length.should.be.equal(0);
+        scope.rawtxListener({data: 'id 1'});
+        scope.txes[0].txid.should.be.equal('id 1');
+        scope.rawtxListener({data: 'id 2'});
+        scope.txes[0].txid.should.be.equal('id 2');
+        scope.txes[1].txid.should.not.be.equal('id 2');
+        
+    });
+    it('should call $scope.loadMempool() when hashblock event received', function(){
+        var loadMempool = sinon.stub(scope, "loadMempool").returns(true);
+        socketio.emit('hashblock', 'data');
+        sinon.assert.calledOnce(loadMempool);
+        socketio.emit('hashblock', 'data');
+        sinon.assert.calledTwice(loadMempool);
+        loadMempool.calledThrice.should.be.false();
+        loadMempool.restore();
+    });
+    it('should remove rawtx listener once $destroy event received on $scope', function(){
+        socketio.removeListener('rawtx', scope.rawtxListener);
+        var rawtxListener = sinon.spy(scope, "rawtxListener");
+        socketio.on('rawtx', scope.rawtxListener);
+        socketio.emit('rawtx', {data: 'test'});
+        sinon.assert.calledOnce(rawtxListener);
+        scope.$emit('$destroy');
+        socketio.emit('rawtx', {data: 'test'});
+        sinon.assert.calledOnce(rawtxListener);
+        rawtxListener.restore();
+    });
+    it('should remove hashblock listener once $destroy event received on $scope', function(){
+        socketio.removeListener('hashblock', scope.hashblockListener);
+        var hashblockListener = sinon.spy(scope, 'hashblockListener');
+        var loadMempool = sinon.stub(scope, 'loadMempool').returns(true);
+        socketio.on('hashblock', scope.hashblockListener);
+        socketio.emit('hashblock');
+        sinon.assert.calledOnce(hashblockListener);
+        scope.$emit('$destroy');
+        socketio.emit('hashblock');
+        sinon.assert.calledOnce(hashblockListener);
+        hashblockListener.restore();
+        loadMempool.restore();
+    });
 });
 
 

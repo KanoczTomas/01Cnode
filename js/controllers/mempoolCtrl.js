@@ -18,7 +18,7 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
     }
     
 
-    $scope.rawtxListener = function rawtxListener(data) {
+    $scope.rawtxListener = function(data) {
         try {
             var tx = bjs.Transaction.fromHex(data.data);  
         }
@@ -42,14 +42,14 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
     
     socketio.on('rawtx', $scope.rawtxListener);
     
-    socketio.on('hashblock', hashblockListerner);
-
-    function hashblockListerner(data) {
+    $scope.hashblockListener = function(data) {
         $scope.loadMempool();
     };
+    socketio.on('hashblock', $scope.hashblockListener);
+    
     $scope.$on("$destroy", function () {
         socketio.removeListener('rawtx', $scope.rawtxListener);
-        socketio.removeListener('hashblock', hashblockListerner);
+        socketio.removeListener('hashblock', $scope.hashblockListener);
     });
     
 }];
