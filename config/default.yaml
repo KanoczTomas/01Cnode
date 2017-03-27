@@ -60,6 +60,7 @@ Api:
       inputName: hash
       inputType: string
       uri: '/getblock/:hash'
+      verbose: false
     - callName: estimatefee
       inputName: nblocks
       inputType: number
@@ -69,4 +70,8 @@ Api:
       inputType: string
       uri: '/getrawtransaction/:txid'
       verbose: true
+    - callName: getblockcount
+      inputName: none
+      inputType: none
+      uri: '/getblockcount'
 ...

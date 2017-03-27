@@ -51,8 +51,9 @@ config.get('Api.restCalls').forEach(function(entry){
         else if(entry.inputType === 'number'){
             inputString.push(Number(req.params[entry.inputName]));
         }
-        if(entry.verbose === true){
-            inputString.push(1);
+        if(typeof entry.verbose === 'boolean'){
+            if(entry.inputType === 'number') entry.verbose = Number(entry.verbose);
+            inputString.push(entry.verbose);
         }
         if(entry.timeout){
             bitcoinRPC.setTimeout(entry.timeout);
