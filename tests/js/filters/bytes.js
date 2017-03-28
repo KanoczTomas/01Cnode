@@ -40,7 +40,6 @@ describe('filter bytes', function(){
         filter(16106127360).should.be.equal("15.00 GBi");
         filter(16106127360,'kBi').should.be.equal("15728640.00 kBi");
         filter(16106127360,'bytes').should.be.equal("16106127360 bytes");
-        
     });
     it('should return 1023 bytes for 1023', function(){
         filter(1023).should.be.equal("1023 bytes");
