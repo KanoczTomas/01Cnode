@@ -21,12 +21,15 @@ module.exports = [ '$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', 
                 .then(function(res){
                     $scope.blocks.push(res.data);
                     console.log(res.data.length);
+                    window.blocks = $scope.blocks.slice();
                 })
             }
         })
     }
     loadLatestBlocks(n);
     console.log($scope.blocks);
+    
+    
 
     
     function loadBlock(){

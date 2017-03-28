@@ -60,7 +60,6 @@ Api:
       inputName: hash
       inputType: string
       uri: '/getblock/:hash'
-      verbose: false
     - callName: estimatefee
       inputName: nblocks
       inputType: number

@@ -1,4 +1,20 @@
-<pre>{{info | json}}</pre>
-latest block: {{info.blocks}} mined at <span loading-inline></span>{{block.time | date:'dd MMM yyyy HH:mm:ss'}}, tx count: <span loading-inline></span>{{block.tx.length}}
-<pre>{{block|json}}</pre>
+<h4 class="text-center">Showing last {{blocks.length|| 0}} blocks:</h4>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>height</th>
+            <th>transactions</th>
+            <th>size</th>
+            <th>time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="block in blocks">
+            <td>{{block.height}}</td>
+            <td>{{block.tx.length}}</td>
+            <td>{{block.size | bytes:'Bi'}}</td>
+            <td>{{block.time | date:'dd MMM yyyy HH:mm:ss'}}</td>
+        </tr>
+    </tbody>
+</table>
 <div loading></div>
