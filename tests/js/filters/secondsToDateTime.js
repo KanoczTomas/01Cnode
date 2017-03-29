@@ -53,7 +53,4 @@ describe('filter secondsToDateTime', function(){
     it('should return 10 days 23:59:59 for (10*24*3600) + (23*3600) + (59*60) + 59', function(){
         filter(10*24*3600 + 23*3600 + 59*60 + 59).should.be.equal('10 days 23:59:59');
     });
-    
-   
-    
 });
