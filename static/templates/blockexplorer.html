@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="block in blocks">
+        <tr ng-repeat="block in blocks | orderBy : 'height' : 'reverse'">
             <td>{{block.height}}</td>
             <td>{{block.tx.length}}</td>
             <td>{{block.size | bytes:'Bi'}}</td>

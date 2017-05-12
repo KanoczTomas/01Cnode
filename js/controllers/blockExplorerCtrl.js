@@ -19,7 +19,9 @@ module.exports = [ '$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', 
                     return $http.get(apiUrlStart + "/getblock/" + hash);
                 })
                 .then(function(res){
-                    $scope.blocks.push(res.data);
+                    var block = res.data;
+                    block.time = block.time * 1000;
+                    $scope.blocks.push(block);
                     console.log(res.data.length);
                     window.blocks = $scope.blocks.slice();
                 })
