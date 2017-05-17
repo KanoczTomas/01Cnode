@@ -24,5 +24,10 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 		url: "/txexplorer",
 		templateUrl: "/templates/txexplorer.html",
 		controller: require("./controllers/txexplorerCtrl")
+	})
+    .state("about", {
+		url: "/about",
+		templateUrl: "/templates/about.html"//,
+		//controller: require("./controllers/about")
 	});
 }];
