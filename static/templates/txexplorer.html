@@ -1,0 +1,35 @@
+<h2 class="text-center">Search transaction:</h2>
+<form>
+  <div class="form-group">
+    <label for="txid">TX id:</label>
+    <input type="text" ng-model="txid" class="form-control" id="txid">
+  </div>
+  <button type="submit" class="btn btn-default" ng-click="search(txid)">Search</button>
+</form> 
+<loading></loading>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="text-center">Transaction information</h3>
+        <dl class="dl-horizontal"> 
+            <dt>Transaction ID:</dt>
+            <dd>{{transaction.data.txid}}</dd>
+            <dt>version:</dt>
+            <dd>{{transaction.data.version}}</dd>
+            <dt>size:</dt>
+            <dd>{{transaction.data.size | bytes}}</dd>
+            <dt>locktime:</dt>
+            <dd>{{transaction.data.locktime}}</dd>
+            <dt>inputs:</dt>
+            <dd>
+                <table ng-repeat="input in transaction.data.vin">
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<pre>{{transaction | json}}</pre>

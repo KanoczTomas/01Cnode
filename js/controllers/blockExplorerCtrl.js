@@ -26,7 +26,10 @@ module.exports = [ '$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', 
                     window.blocks = $scope.blocks.slice();
                 })
             }
-        })
+        }
+	,function(error){
+	  $scope.blocks = error;
+	});
     }
     loadLatestBlocks(n);
     console.log($scope.blocks);

@@ -22,7 +22,7 @@ Zmq:
     - "rawtx"
     
 Bitcoin:
-  homeDir: '/mnt/bitcoindata/'
+  homeDir: '/home/tk/regtest'
 
 Api:
   restCalls:

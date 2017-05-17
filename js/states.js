@@ -19,5 +19,10 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 		url: "/blockexplorer",
 		templateUrl: "/templates/blockexplorer.html",
 		controller: require("./controllers/blockExplorerCtrl")
+	})
+    .state("txexplorer", {
+		url: "/txexplorer",
+		templateUrl: "/templates/txexplorer.html",
+		controller: require("./controllers/txexplorerCtrl")
 	});
 }];

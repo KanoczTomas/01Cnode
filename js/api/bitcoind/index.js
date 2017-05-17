@@ -63,7 +63,7 @@ config.get('Api.restCalls').forEach(function(entry){
             res.status(200).json(value.result).end();
         })
         .error(function(error){
-            res.status(200).json({status: "error", error: error}).end();
+            res.status(200).json({status: "error", error: error.toString()}).end();
         });
     })
 });
