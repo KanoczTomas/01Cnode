@@ -22,11 +22,37 @@
             <dd>{{transaction.data.locktime}}</dd>
             <dt>inputs:</dt>
             <dd>
-                <table ng-repeat="input in transaction.data.vin">
-                    <tr>
-                        <td></td>
-                    </tr>
-                </table>
+                <br>
+                <dl class="dl-horizontal" ng-repeat="input in transaction.data.vin">
+                    <dt>#</dt>
+                    <dd>{{$index+1}}</dd>
+                    <dt>txid</dt>
+                    <dd>{{input.txid}}</dd>
+                    <dt>vout</dt>
+                    <dd>{{input.vout}}</dd>
+                    <dt>unlocking script</dt>
+                    <dd>{{input.scriptSig.asm}}</dd>
+                    <dt>sequence number</dt>
+                    <dd>{{input.sequence}}</dd>
+                </dl>
+            </dd>
+            <dt>outputs:</dt>
+            <dd>
+                <br>
+                <dl class="dl-horizontal" ng-repeat="output in transaction.data.vout">
+                    <dt>#</dt>
+                    <dd>{{$index+1}}</dd>
+                    <dt>value</dt>
+                    <dd>{{output.value}} BTC</dd>
+                    <dt>n</dt>
+                    <dd>{{output.n}}</dd>
+                    <dt>locking script</dt>
+                    <dd>{{output.scriptPubKey.asm}}</dd>
+                    <dt>type</dt>
+                    <dd>{{output.scriptPubKey.type}}</dd>
+                    <dt>addresses</dt>
+                    <dd>{{output.scriptPubKey.addresses}}</dd>
+                </dl>
             </dd>
         </dl>
     </div>
