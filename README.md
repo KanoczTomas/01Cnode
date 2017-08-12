@@ -18,7 +18,7 @@ demo page can be found at http://node.chcembitcoin.sk
 # how to setup:
 - download bitcoind or bitcoin-qt
 - build it with zeromq support (zeromq is needed for the mempool page to work, in case you do not want to see realtime tranasctions this step can be ommited)
-- make some extra bitcoin configuration to make the frontend work:
+- make some extra bitcoin configuration to make the frontend work (note turning on txindex will require to reindex the whole blockchain which takes a lot of time, you were warned :) ):
 ```
 daemon=1
 rpcuser=<some user>
