@@ -5,13 +5,13 @@ Web:
 Client:
   appName: raspinodemon
   apiUrlStart: "/api/bitcoind"
-  pageName: "raspberrypi bitcoin fullnode"
+  pageName: "my bitcoin fullnode"
 
 RPC:
   host: localhost
-  port: 18332
-  rpc_username: bitcoinrpc
-  rpc_password: djdjeei38384itmymykgg8f9rororkrkmrkrofofoeoe9woeidjdjekeoekdmd
+  port: 8332
+  rpc_username: <some username>
+  rpc_password: <a very secret password>
 
 Zmq:
   socket: "tcp://127.0.0.1:28332"
@@ -22,7 +22,7 @@ Zmq:
     - "rawtx"
     
 Bitcoin:
-  homeDir: '/home/tk/regtest'
+  homeDir: '~/.bitcoin'
 
 Api:
   restCalls:
