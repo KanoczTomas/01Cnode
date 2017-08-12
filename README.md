@@ -16,7 +16,7 @@ demo page can be found at http://node.chcembitcoin.sk
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
 
 # how to setup:
-- download bitcoind or bitcoin-qt
+- download bitcoin-core
 
 - build it with zeromq support (zeromq is needed for the mempool page to work, in case you do not want to see realtime tranasctions this step can be ommited)
 
