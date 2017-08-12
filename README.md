@@ -10,7 +10,7 @@ demo page can be found at http://node.chcembitcoin.sk
 ![overview screenshot](doc/img/overview.png "Overview")
 - mempool - page shows total mempool entries and the last 10 txes in realtime that the bitcoind client sent us through zeromq 
 ![mempool screenshot](doc/img/mempool.png "Mempool")
-- block explorer - the latest block is shown as a json - no view implemented yet, just the backend interaction 
+- block explorer - the 10 latest blocks are shown
 ![blockexplorer screenshot](doc/img/blockexplorer.png "Blockexplorer")
 - transaction explorer - details about a TX are shown once the hash is included in the search bar
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
