@@ -38,7 +38,7 @@ RPC:
   host: localhost
   port: 8332
   rpc_username: <some username>
-  rpc_password: <a very secret passwor
+  rpc_password: <a very secret password>
 ```
 - then install the dependencies:
 ```
