@@ -46,6 +46,7 @@ npm install
 ```
 node server.js
 ```
+- browse to http://localhost:5000 to view the page (assuming the bitcoin-core and the web frontend are on the same node)
 
 # todos:
 - see issues page
