@@ -46,7 +46,7 @@ npm install
 ```
 npm build
 ```
-- and start the web frontend (please note it will run in a console, do not close it or your webserver will quick, still in developement, will be fixed later)
+- and start the web frontend (please note it will run in a console, do not close it or your webserver will quit, still in developement, will be fixed later)
 ```
 node server.js
 ```
