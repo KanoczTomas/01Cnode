@@ -30,7 +30,6 @@ bitcoind.get("/status", function(req, res){
 		release: os.release(),
 		hostname: os.hostname(),
 		networkInterfaces: os.networkInterfaces(),
-        networkInterfacesKeys: Object.keys(os.networkInterfaces()),
 		loadavg: os.loadavg()
 	};
     getSize(config.get('Bitcoin.homeDir'), function(error,size){
@@ -52,8 +51,9 @@ config.get('Api.restCalls').forEach(function(entry){
         else if(entry.inputType === 'number'){
             inputString.push(Number(req.params[entry.inputName]));
         }
-        if(entry.verbose === true){
-            inputString.push(1);
+        if(typeof entry.verbose === 'boolean'){
+            if(entry.inputType === 'number') entry.verbose = Number(entry.verbose);
+            inputString.push(entry.verbose);
         }
         if(entry.timeout){
             bitcoinRPC.setTimeout(entry.timeout);
@@ -63,7 +63,7 @@ config.get('Api.restCalls').forEach(function(entry){
             res.status(200).json(value.result).end();
         })
         .error(function(error){
-            res.status(200).json({status: "error", error: error}).end();
+            res.status(200).json({status: "error", error: error.toString()}).end();
         });
     })
 });

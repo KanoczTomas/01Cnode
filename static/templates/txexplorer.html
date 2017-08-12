@@ -1,0 +1,61 @@
+<h2 class="text-center">Search transaction:</h2>
+<form>
+  <div class="form-group">
+    <label for="txid">TX id:</label>
+    <input type="text" ng-model="txid" class="form-control" id="txid">
+  </div>
+  <button type="submit" class="btn btn-default" ng-click="search(txid)">Search</button>
+</form> 
+<loading></loading>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="text-center">Transaction information</h3>
+        <dl class="dl-horizontal"> 
+            <dt>Transaction ID:</dt>
+            <dd>{{transaction.data.txid}}</dd>
+            <dt>version:</dt>
+            <dd>{{transaction.data.version}}</dd>
+            <dt>size:</dt>
+            <dd>{{transaction.data.size | bytes}}</dd>
+            <dt>locktime:</dt>
+            <dd>{{transaction.data.locktime}}</dd>
+            <dt>inputs:</dt>
+            <dd>
+                <br>
+                <dl class="dl-horizontal" ng-repeat="input in transaction.data.vin">
+                    <dt>#</dt>
+                    <dd>{{$index+1}}</dd>
+                    <dt>txid</dt>
+                    <dd>{{input.txid}}</dd>
+                    <dt>vout</dt>
+                    <dd>{{input.vout}}</dd>
+                    <dt>unlocking script</dt>
+                    <dd>{{input.scriptSig.asm}}</dd>
+                    <dt>sequence number</dt>
+                    <dd>{{input.sequence}}</dd>
+                </dl>
+            </dd>
+            <dt>outputs:</dt>
+            <dd>
+                <br>
+                <dl class="dl-horizontal" ng-repeat="output in transaction.data.vout">
+                    <dt>#</dt>
+                    <dd>{{$index+1}}</dd>
+                    <dt>value</dt>
+                    <dd>{{output.value}} BTC</dd>
+                    <dt>n</dt>
+                    <dd>{{output.n}}</dd>
+                    <dt>locking script</dt>
+                    <dd>{{output.scriptPubKey.asm}}</dd>
+                    <dt>type</dt>
+                    <dd>{{output.scriptPubKey.type}}</dd>
+                    <dt>addresses</dt>
+                    <dd>{{output.scriptPubKey.addresses}}</dd>
+                </dl>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<pre>{{transaction | json}}</pre>

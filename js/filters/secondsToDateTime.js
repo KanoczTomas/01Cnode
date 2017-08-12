@@ -15,7 +15,7 @@ angular.module(config.get("Client.appName"))
     }
 
     return function(seconds) {
-        if (typeof seconds !== "number" || seconds < 0)
+        if (typeof seconds !== "number" || seconds < 0 || isNaN(seconds) || !isFinite(seconds))
             return "00:00:00";
 
         var days = Math.floor(seconds / 86400),

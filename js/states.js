@@ -8,6 +8,7 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 		url: "/overview",
 		templateUrl: "/templates/overview.html",
 		controller: require("./controllers/overviewCtrl"),
+        controllerAs: "overviewCtrl"
 	})
 	.state("mempool", {
 		url: "/mempool",
@@ -18,5 +19,15 @@ module.exports = [ "$stateProvider", "$urlRouterProvider", function($stateProvid
 		url: "/blockexplorer",
 		templateUrl: "/templates/blockexplorer.html",
 		controller: require("./controllers/blockExplorerCtrl")
+	})
+    .state("txexplorer", {
+		url: "/txexplorer",
+		templateUrl: "/templates/txexplorer.html",
+		controller: require("./controllers/txexplorerCtrl")
+	})
+    .state("about", {
+		url: "/about",
+		templateUrl: "/templates/about.html"//,
+		//controller: require("./controllers/about")
 	});
 }];

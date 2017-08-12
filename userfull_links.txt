@@ -1,2 +1,7 @@
 unit testing:
 https://www.smashingmagazine.com/2014/10/introduction-to-unit-testing-in-angularjs/
+https://medium.com/shyp-engineering/speeding-up-javascript-test-time-1000x-460c528418e7#.wh58icwd0
+
+
+for testnet mining:
+cgminer.exe -o http://localhost:18332 -u username -p password --au3-volt 830 --au3-freq 250 --btc-address mzT8ADEE... --btc-sig "Victorsueca AMU3"
