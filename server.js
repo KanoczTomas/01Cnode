@@ -13,6 +13,9 @@ var os = require("os");
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
 var compression = require("compression");
+var fs = require("fs");
+var path = require("path");
+var logFile = path.join(__dirname, "server.log");
 
 
 // Code to run if we're in the master process
@@ -40,7 +43,9 @@ if (cluster.isMaster) {
 
     server.listen(config.get('Web.port'));
     app.use(compression());
-    app.use(morgan("dev"));
+    var accessLogStream = fs.createWriteStream(logFile, {flags: 'a'})
+    console.log("logging to file: " + logFile);
+    app.use(morgan("combined", {stream: accessLogStream}));
     app.use(bodyParser.json());
     console.log("server is now running on port " + config.get('Web.port'));
 
