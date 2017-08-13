@@ -10,15 +10,17 @@ demo page can be found at http://node.chcembitcoin.sk
 ![overview screenshot](doc/img/overview.png "Overview")
 - mempool - page shows total mempool entries and the last 10 txes in realtime that the bitcoind client sent us through zeromq 
 ![mempool screenshot](doc/img/mempool.png "Mempool")
-- block explorer - the latest block is shown as a json - no view implemented yet, just the backend interaction 
+- block explorer - the 10 latest blocks are shown
 ![blockexplorer screenshot](doc/img/blockexplorer.png "Blockexplorer")
 - transaction explorer - details about a TX are shown once the hash is included in the search bar
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
 
 # how to setup:
-- download bitcoind or bitcoin-qt
+- download bitcoin-core
+
 - build it with zeromq support (zeromq is needed for the mempool page to work, in case you do not want to see realtime tranasctions this step can be ommited)
-- make some extra bitcoin configuration to make the frontend work (note turning on txindex will require to reindex the whole blockchain which takes a lot of time, you were warned :) ):
+
+- make some extra bitcoin configuration to make the frontend work (note: turning on txindex will require to reindex the whole blockchain which takes a lot of time, you were warned :). You can ignore that setting, the TransactionExplorer page will only show your transactions in that case. )I recommend running this frontend with bitcoin-core launched with -disablewallet (or add disablewallet=1 to bitcoin.conf) in case you did not read the source code of this tool fully - you should never trust anyone
 ```
 daemon=1
 rpcuser=<some user>
@@ -36,16 +38,21 @@ RPC:
   host: localhost
   port: 8332
   rpc_username: <some username>
-  rpc_password: <a very secret passwor
+  rpc_password: <a very secret password>
 ```
 - then install the dependencies:
 ```
 npm install
 ```
-- and start the web frontend (please note it will run in a console, do not close it or your webserver will quick, still in developement, will be fixed later)
+- build the javascript bundle file
+```
+npm build
+```
+- and start the web frontend (please note it will run in a console, do not close it or your webserver will quit, still in developement, will be fixed later)
 ```
 node server.js
 ```
+- browse to http://localhost:5000 to view the page (assuming the bitcoin-core and the web frontend are on the same node)
 
 # todos:
 - see issues page
