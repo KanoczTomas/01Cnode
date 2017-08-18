@@ -3,7 +3,7 @@
 This is a webfrontend for a full bitcoin node. Bitcoin-core is running as the backend and this little app allows you to see the status of the node through an easy graphical web frontend. 
 
 # demo page
-demo page can be found at http://node.chcembitcoin.sk
+demo page can be found at http://node.ispol.sk
 
 # Implemented pages:
 - overview - shows basic info about the node like processor count, available memorry, active interfaces and connected peers
