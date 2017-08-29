@@ -20,7 +20,7 @@ demo page can be found at http://node.ispol.sk
 
 - build it with zeromq support (zeromq is needed for the mempool page to work, in case you do not want to see realtime tranasctions this step can be ommited)
 
-- make some extra bitcoin configuration to make the frontend work (note: turning on txindex will require to reindex the whole blockchain which takes a lot of time, you were warned :). You can ignore that setting, the TransactionExplorer page will only show your transactions in that case. )I recommend running this frontend with bitcoin-core launched with -disablewallet (or add disablewallet=1 to bitcoin.conf) in case you did not read the source code of this tool fully - you should never trust anyone
+- make some extra bitcoin configuration to make the frontend work (note: turning on txindex will require to reindex the whole blockchain which takes a lot of time, you were warned :). You can ignore that setting, the TransactionExplorer page will only show your transactions in that case. ). I recommend running this frontend with bitcoin-core launched with -disablewallet (or add disablewallet=1 to bitcoin.conf) in case you did not read the source code of this tool fully - you should never trust anyone
 ```
 daemon=1
 rpcuser=<some user>
@@ -31,6 +31,7 @@ zmqpubhashblock=tcp://127.0.0.1:28332
 zmqpubrawblock=tcp://127.0.0.1:28332
 zmqpubrawtx=tcp://127.0.0.1:28332
 txindex=1
+disablewallet=1
 ```
 - get this repo via git and edit the file config/default.yaml - the credentials should be the same as in your bitcoin.conf. Also adjust the host and port accordingly
 ```
@@ -46,7 +47,7 @@ npm install
 ```
 - build the javascript bundle file
 ```
-npm build
+npm run build
 ```
 - and start the web frontend (please note it will run in a console, do not close it or your webserver will quit, still in developement, will be fixed later)
 ```
