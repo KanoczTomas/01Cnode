@@ -1,14 +1,21 @@
 'use strict';
 
-module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', function ($scope, $http, $interval, apiUrlStart) {
+module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', function ($scope, $http, $interval, apiUrlStart, getInfoSrv) {
         $scope.refresh = function () {
             $http.get(apiUrlStart + '/getpeerinfo').then(function (res) {
                 $scope.peers = res.data;
+            });
+            $http.get(apiUrlStart + '/getinfo').then(function (res){
+                $scope.blocks = res.data.blocks;
             });
         };
         $scope.timer = undefined;
         $http.get(apiUrlStart + '/status').then(function (res) {
             $scope.info = res.data;
+            getInfoSrv.then(function (info){
+                $scope.info.synced = info.synced;
+                $scope.info.version = info.version;
+            });
             if (!angular.isDefined($scope.timer)) {
                 $scope.timer = $interval(function () {
                     $scope.info.uptime += 1; //we add 1 second to uptime to fake it is live

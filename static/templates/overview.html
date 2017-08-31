@@ -12,6 +12,13 @@
             <dd>{{info.cpus.length}}</dd>
             <dt>hostname:</dt>
             <dd>{{info.hostname}}</dd>
+            <dt>state:</dt>
+            <dd ng-show="info.synced"  class="text text-success">synced</dd>
+            <dd ng-hide="info.synced"  class="text text-danger">not synced</dd>
+            <dt>client version:</dt>
+            <dd>{{info.version}}</dd>
+            <dt>blocks:</dt>
+            <dd>{{blocks}}</dd>
             <dt>blockchain size:</dt>
             <dd>{{info.blockchainSize|bytes}}</dd>
             <dt>totalmem:</dt>

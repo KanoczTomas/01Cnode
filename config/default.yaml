@@ -35,6 +35,11 @@ Api:
       inputType: none
       uri: '/getpeerinfo'
       timeout: 4000
+    - callName: getblockchaininfo
+      inputName: none
+      inputType: none
+      uri: '/getblockchaininfo'
+      timeout: 8000
     - callName: getnetworkinfo
       inputName: none
       inputType: none

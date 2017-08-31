@@ -2,14 +2,41 @@
 
 var config = require("config");
 var should = require("should");
+var listify = require("listify");
 require("../angular-helper");
 require("../../../js/app.js");
 
+
+
 describe('overviewCtrl', function(){
     var $httpBackend, $rootScope, createController, requestHandler, state = "overview", $state;
-    var scope, $interval;
-    
+    var scope, $interval, urls = [
+        '/getinfo',
+        '/status',
+        '/getpeerinfo',
+        ];
+    function createUrlsForTestTitle(urls){
+        var str = '';
+        urls.forEach(function (url){
+            str += config.get('Client.apiUrlStart') + url + ' ';
+        });
+        return listify(str.split(' '));
+    }
+        
     beforeEach(ngModule(config.get('Client.appName')));
+    beforeEach(ngModule(function($provide){
+        $provide.factory('getInfoSrv', function($q){
+            return $q.when({
+                testnet: false,
+                pageName: 'nice page',
+                chain: 'main',
+                pageName: 'nice page',
+                synced: 'set correctly',
+                version: 'correct version'
+            });
+        });
+    }));
+    
     beforeEach(inject(function ($injector){
         $httpBackend = $injector.get('$httpBackend');
         $rootScope = $injector.get('$rootScope');
@@ -20,13 +47,17 @@ describe('overviewCtrl', function(){
         
         var $controller = $injector.get('$controller');
         scope = $rootScope.$new();
-        createController = function(scope){
+        function createController(scope){
             return $injector.instantiate($state.get(state).controller,{
                 "$scope": scope
             });
         };
         createController(scope);
-        
+
+        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getinfo')
+        .respond({
+            blocks: 123456
+        });
         $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/status')
         .respond({
             cpu: "a nice cpu" ,
@@ -52,7 +83,7 @@ describe('overviewCtrl', function(){
         $httpBackend.verifyNoOutstandingRequest();
     });
     
-    it('should GET ' + config.get('Client.apiUrlStart') + '/status and ' + config.get('Client.apiUrlStart'), function(){
+    it('should GET ' + createUrlsForTestTitle(urls), function(){
         //all is covered in the before hooks
     });
     it('state should be overview', function(){
@@ -137,6 +168,22 @@ describe('overviewCtrl', function(){
         scope.setLoadCss(1).should.not.be.equal("text-danger");
 
         
+    });
+    it('should set $scope.info.synced to whatever getInfoSrv returns', function(){
+        //we are not testing the synced logic, that is testing in the service
+        //we only test that the variable is set
+        scope.$apply();
+        scope.info.synced.should.be.equal('set correctly');
+    });
+    it('should set $scope.info.version to whatever getInfoSrv returns', function(){
+        //we are not testing the synced logic, that is testing in the service
+        //we only test that the variable is set
+        scope.$apply();
+        scope.info.version.should.be.equal('correct version');
+    });
+    it('should set $scope.blocks correctly', function(){
+        scope.$apply();
+        scope.blocks.should.be.equal(123456);
     });
     it('should cancel $scope.timer on $destroy event', function(){
         scope.$apply();
