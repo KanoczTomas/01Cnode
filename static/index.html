@@ -16,7 +16,7 @@
 <nav class="navbar navbar-default" ng-controller="indexCtrl">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">{{pageName}} <span ng-show="testnet" class="label label-danger">Testnet</span><span ng-show="main" class="label label-success">Mainnet</span><span ng-show="regtest" class="label label-info">Regtest</span></a>
+      <a class="navbar-brand" href="#" ng-cloak>{{pageName}} <span ng-show="testnet" class="label label-danger" ng-cloak>Testnet</span><span ng-show="main" class="label label-success" ng-cloak>Mainnet</span><span ng-show="regtest" class="label label-info" ng-cloak>Regtest</span></a>
     </div>
     <ul class="nav navbar-nav">
       <li ui-sref-active="active"><a ui-sref="overview">Overview</a></li>
