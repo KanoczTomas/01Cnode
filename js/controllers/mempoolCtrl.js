@@ -21,6 +21,7 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
     $scope.rawtxListener = function(data) {
         try {
             var tx = bjs.Transaction.fromHex(data.data);  
+            window.tx = tx;
         }
         catch (e) {
             console.log(e);
@@ -35,7 +36,8 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
             tx.totalSent += out.value;
         })
         tx.totalSent = (tx.totalSent / 100000000).toFixed(8); //we convert satoshi to BTC
-        $scope.mempoolEntry.size += 1;
+        if($scope.mempoolEntry)$scope.mempoolEntry.size += 1;
+        if($scope.mempoolEntry)$scope.mempoolEntry.bytes += data.data.length/2; //we have bytes in hexa 2 digits = 1 B
         if ($scope.txes.length > $scope.showN) $scope.txes.pop();
         $scope.txes.unshift(tx);
     }

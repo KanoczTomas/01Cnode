@@ -1,6 +1,6 @@
 {
   "name": "raspinodemon",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "tool to monitor raspinode",
   "main": "server.js",
   "scripts": {
@@ -38,6 +38,8 @@
     "get-folder-size": "^1.0.0",
     "js-yaml": "^3.7.0",
     "node-bitcoin-rpc": "^1.1.2",
+    "node-gyp": "^3.6.2",
+    "node-pre-gyp": "^0.6.36",
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "uglify-js": "^2.7.5",

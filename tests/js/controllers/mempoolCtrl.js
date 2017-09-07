@@ -75,7 +75,8 @@ describe('mempoolCtrl', function(){
         
         $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getmempoolinfo')
         .respond({
-           size: 1000
+            size: 1000,
+            bytes: 20
         });
         $httpBackend.flush();//when called all $http.get methods fire in the controller and return mocked responses
     }));
@@ -148,11 +149,13 @@ describe('mempoolCtrl', function(){
         scope.rawtxListener(data);
         scope.txes[0].totalSent.should.be.equal('4.00000010');
     });
-    it('should increase $scope.mempoolEntry.size by one when rawtx event received', function(){
+    it('should increase $scope.mempoolEntry.size by one when rawtx event received and $scope.mempoolEntry.bytes by tx bytes', function(){
         scope.mempoolEntry.size.should.be.equal(1000);
-        scope.rawtxListener({data: 'test'});
-        scope.rawtxListener({data: 'test'});
-        scope.mempoolEntry.size.should.be.equal(1002);
+        scope.rawtxListener({data: '0102'});
+        scope.rawtxListener({data: '010203040506'});
+        scope.rawtxListener({data: '010203040506070809AA'});
+        scope.mempoolEntry.size.should.be.equal(1003);
+        scope.mempoolEntry.bytes.should.be.equal(38);
         
     });
     it('txid property of tx within $scope.rawtxListener should be set correctly', function(){
