@@ -5,6 +5,7 @@
             <th>height</th>
             <th>transactions</th>
             <th>size</th>
+            <th>weight</th>
             <th>time</th>
         </tr>
     </thead>
@@ -12,7 +13,8 @@
         <tr ng-repeat="block in blocks | orderBy : 'height' : 'reverse'">
             <td>{{block.height}}</td>
             <td>{{block.tx.length}}</td>
-            <td>{{block.size | bytes:'Bi'}}</td>
+            <td>{{block.size | bytes:'SIbytes.dynamic'}}</td>
+            <td>{{block.weight | bytes:'WU.dynamic'}}</td>
             <td>{{block.time | date:'dd MMM yyyy HH:mm:ss'}}</td>
         </tr>
     </tbody>
