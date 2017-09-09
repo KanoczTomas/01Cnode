@@ -1,5 +1,5 @@
 <h4 class="text-center">Total mempool entries: {{mempoolEntry.size|| 0}}</h4>
-<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}} - roughly fits to {{((mempoolEntry.bytes/1000000) + 1).toFixed(0)}} block(s)</h4>
+<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}} - roughly fits to {{mempoolEntry.fitsToBlocksCount}} block(s)</h4>
 <p class="text-center"></p>
 <table class="table table-responsive">
     <caption class="text-center">Showing last {{txes.length < showN ? txes.length : showN}} transactions</caption>
