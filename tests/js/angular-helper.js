@@ -1,7 +1,9 @@
-var jsdom = require('jsdom').jsdom;
+const jsdom = require('jsdom')
+const {JSDOM} = jsdom;
 
-global.document = jsdom('<html><head><script></script></head><body></body></html>');
-global.window = global.document.parentWindow;
+
+global.document = new JSDOM('<html><head><script></script></head><body></body></html>');
+global.window = global.document.window;
 global.navigator = window.navigator = {};
 global.Node = window.Node;
 

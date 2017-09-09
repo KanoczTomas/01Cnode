@@ -1,11 +1,12 @@
 'use strict';
 
 require("angular");
+require("@uirouter/angularjs")
 var config = require("config");
 var socketio = require("angular-socket-io");
 
 var app = angular.module(config.get('Client.appName'),
-  [ require("angular-ui-router"),
+  [ 'ui.router',
     'btford.socket-io'
   ]
 );

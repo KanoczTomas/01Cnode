@@ -5,6 +5,16 @@ var config = require("config");
 
 angular.module(config.get("Client.appName"))
 .filter('bytes', function() {
+    //usage:
+    //if no unit given, bibytes are used, e.g. 1kBi = 1024bytes
+    //if unit is bytes || [kMGTP]Bi the respected bibyte unit is used only
+    //if unit is bytes.dynamic the closest unit is returned, e.g. 2048 would be 2kBi
+    //if unit is SIbytes || [kMGTP]B the respected byte unit is used only (1000 based)
+    //if unit is SIbytes.dynamic the closes unit is returned e.g. 2048 would be 2.05kB
+    //if unit is WU || [kmGTP]WU the respected unit is used only
+    //if unit is WU.dynamic the closes unit is returned e.g. 2048 2.05kWU 
+    
+    
 	return function filterBytes(bytes, unit, precision) {
 		if (bytes === 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 		if (typeof precision === 'undefined') precision = 2;

@@ -12,6 +12,9 @@ proxyquire("../../../js/controllers/mempoolCtrl", {
         Transaction: {
             fromHex: function(data){
                 return {
+                    byteLength: function(){
+                        return data.length/2;
+                    },
                     getId: function(){
                         if(typeof data !== 'string') data = 'a unique id'
                         return data;

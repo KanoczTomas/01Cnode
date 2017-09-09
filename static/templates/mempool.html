@@ -6,12 +6,19 @@
         <tr>
             <th>txid&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
             <th>amount sent</th>
+            <th>size</th>
+            <th>weight</th>
+            <th>has witness?</th>
+            
         </tr>
     </thead>
     <tbody>
         <tr ng-class="setCSSanimation($index)" ng-repeat="tx in txes">
             <td>{{tx.txid}}</td>
             <td>{{tx.totalSent}} BTC</td>
+            <td>{{tx.bytes | bytes:'SIbytes.dynamic'}}</td>
+            <td>{{tx.weight() | bytes:'WU.dynamic' }}</td>
+            <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hid="tx.hasWitness()" class="text-center text-danger">no</span></td>
         </tr>
     </tbody>
 </table>
