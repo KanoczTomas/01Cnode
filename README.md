@@ -6,11 +6,11 @@ This is a webfrontend for a full bitcoin node. Bitcoin-core is running as the ba
 demo page can be found at http://node.ispol.sk
 
 # Implemented pages:
-- overview - shows basic info about the node like processor count, available memorry, active interfaces and connected peers
+- overview - shows basic info about the node like processor count, available memorry, active interfaces, connected peers, client version, number of blocks, synced state, etc.
 ![overview screenshot](doc/img/overview.png "Overview")
-- mempool - page shows total mempool entries and the last 10 txes in realtime that the bitcoind client sent us through zeromq 
+- mempool - page shows total mempool entries, size of the mempool, to how many blocks would the transactions roughly fit, transaction size, weight and if the transaction has a witness (is segwit). Shows the last 10 txes in realtime that the bitcoind client sent us through zeromq. 
 ![mempool screenshot](doc/img/mempool.png "Mempool")
-- block explorer - the 10 latest blocks are shown
+- block explorer - the 10 latest blocks are shown, their size, weight, timestamp 
 ![blockexplorer screenshot](doc/img/blockexplorer.png "Blockexplorer")
 - transaction explorer - details about a TX are shown once the hash is included in the search bar
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
