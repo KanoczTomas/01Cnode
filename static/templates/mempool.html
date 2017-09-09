@@ -1,5 +1,6 @@
 <h4 class="text-center">Total mempool entries: {{mempoolEntry.size|| 0}}</h4>
-<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}}</h4>
+<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}} - roughly fits to {{((mempoolEntry.bytes/1000000) + 1).toFixed(0)}} block(s)</h4>
+<p class="text-center"></p>
 <table class="table table-responsive">
     <caption class="text-center">Showing last {{txes.length < showN ? txes.length : showN}} transactions</caption>
     <thead>
@@ -16,7 +17,7 @@
         <tr ng-class="setCSSanimation($index)" ng-repeat="tx in txes">
             <td>{{tx.txid}}</td>
             <td>{{tx.totalSent}} BTC</td>
-            <td>{{tx.bytes | bytes:'SIbytes.dynamic'}}</td>
+            <td>{{tx.byteLength() | bytes:'SIbytes.dynamic'}}</td>
             <td>{{tx.weight() | bytes:'WU.dynamic' }}</td>
             <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hid="tx.hasWitness()" class="text-center text-danger">no</span></td>
         </tr>
