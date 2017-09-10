@@ -110,7 +110,16 @@ if (cluster.isMaster) {
                             workQueue.push(
                                 bitcoinRPC.callAsync('gettransaction', [txId])
                                 .then(function (res){
-                                    var tx = bjs.Transaction.fromHex(res.result.hex)         ;                           
+                                    try {
+                                        var tx = bjs.Transaction.fromHex(res.result.hex);
+                                    }
+                                    catch(err){
+                                        console.error('something went wrong while trying to decode: ')
+                                        console.error(res);
+                                        console.error(err);
+                                        console.error('check if you are synced!');
+                                        return err;
+                                    }
                                     return tx.outs[index].value;
                                 })
                             );
