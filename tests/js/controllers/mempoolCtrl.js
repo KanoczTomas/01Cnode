@@ -159,6 +159,7 @@ describe('mempoolCtrl', function(){
         scope.rawtxListener({data: '010203040506070809AA'});
         scope.mempoolEntry.size.should.be.equal(1003);
         scope.mempoolEntry.bytes.should.be.equal(38);
+        scope.mempoolEntry.fitsToHowManyBlocks.should.be.equal(1);
         
     });
     it('txid property of tx within $scope.rawtxListener should be set correctly', function(){

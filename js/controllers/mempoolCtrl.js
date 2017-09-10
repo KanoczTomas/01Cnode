@@ -29,6 +29,7 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
             return;
         }
         
+        tx.fee = data.fee;//we get it from the server
         tx.totalSent = 0;
         tx.txid = tx.getId();
         tx.outs.forEach(function (out) {
@@ -36,7 +37,8 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
         })
         tx.totalSent = (tx.totalSent / 100000000).toFixed(8); //we convert satoshi to BTC
         if($scope.mempoolEntry)$scope.mempoolEntry.size += 1;
-        if($scope.mempoolEntry)$scope.mempoolEntry.bytes += tx.byteLength(); //we have bytes in hexa 2 digits = 1 B
+        if($scope.mempoolEntry)$scope.mempoolEntry.bytes += tx.byteLength(); 
+        if($scope.mempoolEntry)$scope.mempoolEntry.fitsToHowManyBlocks = Math.ceil($scope.mempoolEntry.bytes/1000000);
         if ($scope.txes.length > $scope.showN) $scope.txes.pop();
         $scope.txes.unshift(tx);
     }

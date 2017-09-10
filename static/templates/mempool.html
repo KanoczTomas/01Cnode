@@ -1,5 +1,5 @@
 <h4 class="text-center">Total mempool entries: {{mempoolEntry.size|| 0}}</h4>
-<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}} - roughly fits to {{mempoolEntry.fitsToBlocksCount}} block(s)</h4>
+<h4 class="text-center">Total mempool size: {{(mempoolEntry.bytes | bytes:'kB') || 0}} - roughly fits to {{mempoolEntry.fitsToHowManyBlocks}} block(s)</h4>
 <p class="text-center"></p>
 <table class="table table-responsive">
     <caption class="text-center">Showing last {{txes.length < showN ? txes.length : showN}} transactions</caption>
@@ -9,8 +9,9 @@
             <th>amount sent</th>
             <th>size</th>
             <th>weight</th>
+            <th>fee [sat/B]</th>
+            <th>fee [sat/WU]</th>
             <th>has witness?</th>
-            
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,8 @@
             <td>{{tx.totalSent}} BTC</td>
             <td>{{tx.byteLength() | bytes:'SIbytes.dynamic'}}</td>
             <td>{{tx.weight() | bytes:'WU.dynamic' }}</td>
+            <td>{{(tx.fee/tx.byteLength()*100000000).toFixed(2)}}</td>
+            <td>{{(tx.fee/tx.weight()*100000000).toFixed(2)}}</td>
             <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hid="tx.hasWitness()" class="text-center text-danger">no</span></td>
         </tr>
     </tbody>
