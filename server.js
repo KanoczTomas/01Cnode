@@ -89,7 +89,8 @@ if (cluster.isMaster) {
             if(topic.toString() === event){
                 if(event === 'rawtx'){
                     var txHex = message.toString('hex');
-                    var id;
+                    var id, fee
+                    var inputTotal = 0, outputTotal = 0;
                     try {
                         var tx = bjs.Transaction.fromHex(txHex);
                     }
@@ -97,15 +98,45 @@ if (cluster.isMaster) {
                         console.error(err);
                         console.error('Something went bad when fething tx ' + txHex);
                     }
-                    id = tx.getId();
-                    bitcoinRPC.callAsync('gettransaction', [id])
+                    var workQueue = [];
+                    try{
+                        tx.ins.forEach(function (input){
+                            var txId = Buffer.from(input.hash.toString('hex'),'hex');
+                            for(var i = 0, j = txId.length - 1; i < txId.length; i++, j--){
+                                txId[i] = input.hash[j];
+                            }//we reverse the bytes as input.hash has it backwards
+                            var index = input.index;//we need to remember the index of the input, so we can reference its value below
+                            txId = txId.toString('hex');
+                            workQueue.push(
+                                bitcoinRPC.callAsync('gettransaction', [txId])
+                                .then(function (res){
+                                    var tx = bjs.Transaction.fromHex(res.result.hex)         ;                           
+                                    return tx.outs[index].value;
+                                })
+                            );
+                        });
+                    }
+                    catch (err){
+                        console.error('something went wrong with fetching inputs of tx ' + txHex);
+                        console.error(err);
+                    }
+                    Promise.all(workQueue)
                     .then(function (res){
-                        var fee = Math.abs(res.result.fee);
-                        io.emit(topic.toString(), {
+                        tx.outs.forEach(function (output){
+                            outputTotal += output.value;
+                        });
+                        res.forEach(function (inputValue){
+                            inputTotal += inputValue;
+                        });
+                        fee = inputTotal - outputTotal;
+                        io.emit(topic.toString(),{
                             data: txHex,
                             fee: fee
                         });
-                    })
+                    });
+                    
+                    
+                    
                 }
                 else io.emit(topic.toString(), {data: message.toString('hex')});
             }
