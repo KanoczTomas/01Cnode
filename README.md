@@ -33,7 +33,7 @@ zmqpubrawtx=tcp://127.0.0.1:28332
 txindex=1
 disablewallet=1
 ```
-- get this repo via git and edit the file config/default.yaml - the credentials should be the same as in your bitcoin.conf. Also adjust the host and port accordingly
+- get this repo via git and edit the file config/default.yaml - the credentials should be the same as in your bitcoin.conf. Also adjust the host and port accordingly. Make sure you set your home dir if not the default in the config file.
 ```
 RPC:
   host: localhost
@@ -49,11 +49,11 @@ npm install
 ```
 npm run build
 ```
-- and start the web frontend (please note it will run in a console, do not close it or your webserver will quit, still in developement, will be fixed later)
+- and start the web frontend (please note it will run in a console, do not close it or your webserver will quit, still in developement, will be fixed later to deamonize)
 ```
 node server.js
 ```
-- browse to http://localhost:5000 to view the page (assuming the bitcoin-core and the web frontend are on the same node)
+- browse to http://localhost:5000 to view the page (assuming bitcoin-core and the web frontend are on the same node)
 
 # todos:
 - see issues page
