@@ -22,7 +22,7 @@
             <td>{{tx.weight() | bytes:'WU.dynamic' }}</td>
             <td>{{(tx.fee/tx.byteLength()).toFixed(2)}}</td>
             <td>{{(tx.fee/tx.weight()).toFixed(2)}}</td>
-            <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hid="tx.hasWitness()" class="text-center text-danger">no</span></td>
+            <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hide="tx.hasWitness()" class="text-center text-danger">no</span></td>
         </tr>
     </tbody>
 </table>
