@@ -35,11 +35,11 @@ describe('filter bytes', function(){
     });
     it('should use the given unit if unit input variable set else return closest unit', function(){
         //testing bibytes
-        filter(1524,'test').split(" ")[1].should.be.equal('kiB');
+        filter(1524,'test').split(" ")[1].should.be.equal('KiB');
         filter(1524,'MiB',4).should.be.equal("0.0015 MiB");
         filter(1524,'GiB',10).should.be.equal("0.0000014193 GiB");
         filter(16106127360).should.be.equal("15.00 GiB");
-        filter(16106127360,'kiB').should.be.equal("15728640.00 kiB");
+        filter(16106127360,'KiB').should.be.equal("15728640.00 KiB");
         filter(16106127360,'bytes').should.be.equal("16106127360 bytes");
         //testing bytes
         filter(1524,'MB',4).should.be.equal("0.0015 MB");
@@ -57,8 +57,8 @@ describe('filter bytes', function(){
     it('should return 1023 bytes for 1023', function(){
         filter(1023).should.be.equal("1023 bytes");
     });
-    it('should return 1 kiB for 1024 bytes', function(){
-        filter(1024).should.be.equal("1.00 kiB");
+    it('should return 1 KiB for 1024 bytes', function(){
+        filter(1024).should.be.equal("1.00 KiB");
     });
     it('should return 1 kB for 1000 bytes', function(){
         filter(1000, 'SIbytes.dynamic').should.be.equal("1.00 kB");

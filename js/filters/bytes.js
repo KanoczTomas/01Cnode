@@ -22,7 +22,7 @@ angular.module(config.get("Client.appName"))
             {
                 name: 'bibytes',
                 matchRegexp: /^bytes(\.dynamic)?$|^[kMGTP]iB$/,//bytes.dynamic means it will find k M G T and so on automatically
-                units: ['bytes', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB'],
+                units: ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'],
                 base: 1024
             },
             {
