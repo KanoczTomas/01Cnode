@@ -6,9 +6,9 @@ var config = require("config");
 angular.module(config.get("Client.appName"))
 .filter('bytes', function() {
     //usage:
-    //if no unit given, bibytes are used, e.g. 1kBi = 1024bytes
-    //if unit is bytes || [kMGTP]Bi the respected bibyte unit is used only
-    //if unit is bytes.dynamic the closest unit is returned, e.g. 2048 would be 2kBi
+    //if no unit given, bibytes are used, e.g. 1kiB = 1024bytes
+    //if unit is bytes || [kMGTP]iB the respected bibyte unit is used only
+    //if unit is bytes.dynamic the closest unit is returned, e.g. 2048 would be 2kiB
     //if unit is SIbytes || [kMGTP]B the respected byte unit is used only (1000 based)
     //if unit is SIbytes.dynamic the closes unit is returned e.g. 2048 would be 2.05kB
     //if unit is WU || [kmGTP]WU the respected unit is used only
@@ -21,8 +21,8 @@ angular.module(config.get("Client.appName"))
         var availableUnits = [
             {
                 name: 'bibytes',
-                matchRegexp: /^bytes(\.dynamic)?$|^[kMGTP]Bi$/,//bytes.dynamic means it will find k M G T and so on automatically
-                units: ['bytes', 'kBi', 'MBi', 'GBi', 'TBi', 'PBi'],
+                matchRegexp: /^bytes(\.dynamic)?$|^[kMGTP]iB$/,//bytes.dynamic means it will find k M G T and so on automatically
+                units: ['bytes', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB'],
                 base: 1024
             },
             {
