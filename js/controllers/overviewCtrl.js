@@ -12,9 +12,14 @@ module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', f
         $scope.timer = undefined;
         $http.get(apiUrlStart + '/status').then(function (res) {
             $scope.info = res.data;
-            getInfoSrv.then(function (info){
-                $scope.info.synced = info.synced;
-                $scope.info.version = info.version;
+//            getInfoSrv.then(function (info){
+//                $scope.info.synced = info.synced;
+//                $scope.info.version = info.version;
+//            });
+            getInfoSrv.initialise()
+            .then(function (init){
+                $scope.info.synced = getInfoSrv.synced;
+                $scope.info.version = getInfoSrv.version;
             });
             if (!angular.isDefined($scope.timer)) {
                 $scope.timer = $interval(function () {

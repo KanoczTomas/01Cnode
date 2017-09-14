@@ -1,28 +1,46 @@
-require("../angular-helper");
+'use strict';
 var config = require("config");
 var should = require("should");
+require("../angular-helper");
 require("../../../js/app");
 
 
 describe('service getInfoSrv', function(){
-    var $httpBackend, getInfoSrv, $rootScope, scope;
+    var $httpBackend, getInfoSrv, $rootScope, scope, chain='main', blocks = 500, headers = 500, test;
     
     beforeEach(ngModule(config.get('Client.appName')));
     
-    beforeEach(inject(function($injector){
+    beforeEach(inject(function ($injector){
         $httpBackend = $injector.get('$httpBackend');
         $rootScope = $injector.get('$rootScope');
         scope = $rootScope.$new();
-        getInfoSrv = $injector.get('getInfoSrv');    
+        getInfoSrv = $injector.get('getInfoSrv');
         
-        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getinfo')
-        .respond({
-            data: {
-                testnet: true,
-                blocks: 100
-            }
+        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getblockchaininfo')
+        .respond(200,{
+            chain: 'main',
+//            chain: setChainName(chain),
+            blocks: 500,
+//            blocks: setBlocks(blocks),
+            headers: 500
+//            headers: setHeaders(headers)
         });
-        //$httpBackend.flush();//when called all $http.get methods fire and return mocked responses
+        function setChainName(chain){
+            return chain;
+        }
+        function setBlocks(blocks){
+            return blocks;
+        }
+        function setHeaders(headers){
+            return headers;
+        }
+        
+        $httpBackend.whenGET(config.get('Client.apiUrlStart') + '/getnetworkinfo')
+        .respond(200,{
+            subversion: '/version without backslash/'
+        });
+        $httpBackend.flush();
+        scope.$diget();
         
     }));
     
@@ -31,19 +49,28 @@ describe('service getInfoSrv', function(){
         $httpBackend.verifyNoOutstandingRequest();
     });
     
-    it('should be a Promise', function(){
-        getInfoSrv.should.be.a.Promise();
+    it('should return an object', function(){
+        getInfoSrv.should.be.an.Object();
     });
-    it('should resolve correctly', function(){
-        scope.$apply();
-        return getInfoSrv.then(function(res){
-            res.testnet.should.be.equal(true);
-            res.pageName.should.be.equa(config.get('Client.pageName'));
-            console.log("inside promise");
+    it('should initialise correctly', function(){
+        
+        return getInfoSrv.initialise
+        .then(function (init){
+            init.should.be.true();
+            getInfoSrv.should.be.eql({
+                chain: 'main',
+                blocks: 500,
+                synced: true,
+                pageName: config.get('Client.pageName'),
+                version: 'version without backslash',
+                error: {
+                    fetchBlockChainInfo: false,
+                    fetchNetworkInfo: false,
+                    message: null
+                }
+            });
         });
-        
-        
-        
+
     });
     
 });

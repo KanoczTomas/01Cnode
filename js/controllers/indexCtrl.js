@@ -13,9 +13,15 @@ angular.module(config.get('Client.appName'))
     function setChain(chainName){//we set $scope.regtest or $scope.main or $scope.testnet to true then getInfoSrv resolves
         $scope[chainName] = true;
     }
-    getInfoSrv.then(function(info){
-        setChain(info.chain);//info.chain has the chain name from getblockchaininfo
-        $scope.pageName = info.pageName;
-        $scope.synced = info.synced;
+    getInfoSrv.initialise()
+    .then(function (init){
+        setChain(getInfoSrv.chain);//info.chain has the chain name from getblockchaininfo
+        $scope.pageName = getInfoSrv.pageName;
+        $scope.synced = getInfoSrv.synced;
     });
+//    getInfoSrv.then(function(info){
+//        setChain(info.chain);//info.chain has the chain name from getblockchaininfo
+//        $scope.pageName = info.pageName;
+//        $scope.synced = info.synced;
+//    });
 }]);
