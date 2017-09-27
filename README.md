@@ -58,6 +58,12 @@ node server.js
 # todos:
 - see issues page
 
+# donations:
+please consider donating if you like the project:
 
-# Author
+![bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK](doc/img/donation.svg "bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK")
+
+**3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK**
+
+# author
 Tomas Kanocz
