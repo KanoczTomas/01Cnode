@@ -59,11 +59,11 @@ node server.js
 - see issues page
 
 # donations:
-please consider donating if you like the project:
+please consider donating bitcoins if you like the project:
 
 ![bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK](doc/img/donation.svg "bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK")
 
-**3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK**
+**bitcoin 3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK**
 
 # author
 Tomas Kanocz
