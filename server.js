@@ -62,7 +62,10 @@ io.on('connection', function(data){
 function enqueueInputValueGetter(queue, url, index){
     //returns a promise and fetches tx output value given by index
     return queue.pushTask(function getInputValues(resolve, reject){
-        request(url)
+        request({
+            url: url,
+            timeout: 1000
+        })
         .then(function (res){
             try{
                 var tx = bjs.Transaction.fromHex(res.trim());
