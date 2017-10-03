@@ -8,14 +8,21 @@
     "watch": "watchify js/app.js --poll=1000 -o static/bundle.js -vvv",
     "build": "browserify js/app.js | uglifyjs -mc warnings=false > static/bundle.js",
     "check-updates": "./node_modules/npm-check-updates/bin/npm-check-updates",
-    "start": "nodemon --watch server.js --watch js/api"
+    "start": "nodemon --watch server.js --watch js/api 2> npm_start.error| tee -a npm_start.log"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/KanoczTomas/raspinodemon.git"
+    "url": "https://github.com/KanoczTomas/01Cnode.git"
   },
   "keywords": [
-    "raspberry",
+    "bitcoin",
+    "angularjs",
+    "mempool",
+    "bitcoin-node",
+    "realtime",
+    "blockexplorer",
+    "zeromq",
+    "web-frontend",
     "nodejs",
     "rest",
     "bootstrap"
@@ -23,7 +30,7 @@
   "author": "Tomas Kanocz",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/KanoczTomas/raspinodemon/issues"
+    "url": "https://github.com/KanoczTomas/01Cnode/issues"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.6",

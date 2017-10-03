@@ -22,7 +22,7 @@ angular.module(config.get("Client.appName"))
             {
                 name: 'bibytes',
                 matchRegexp: /^bytes(\.dynamic)?$|^[kMGTP]iB$/,//bytes.dynamic means it will find k M G T and so on automatically
-                units: ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'],
+                units: ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'],
                 base: 1024
             },
             {
@@ -81,7 +81,7 @@ angular.module(config.get("Client.appName"))
             } 
         }
         if(number === 0) precision = 0;//number is equal to 0 if we have bytes. We want 123 bytes, not 123.00
-        if(filterBytes.unitName === 'bytes') units[0] = 'bytes';//we must set the units to bytes instead of the ugly SIbytes
+        if(filterBytes.unitName === 'bytes') units[0] = 'B';//we must set the units to bytes instead of the ugly SIbytes
         return h.toFixed(precision) +  ' ' + units[number];;
 	}
 });
