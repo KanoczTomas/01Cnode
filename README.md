@@ -26,6 +26,7 @@ daemon=1
 rpcuser=<some user>
 rpcpassword=<a very secret password>
 server=1
+rest=1
 zmqpubhashtx=tcp://127.0.0.1:28332
 zmqpubhashblock=tcp://127.0.0.1:28332
 zmqpubrawblock=tcp://127.0.0.1:28332
