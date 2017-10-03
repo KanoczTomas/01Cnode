@@ -17,141 +17,127 @@ var fs = require("fs");
 var path = require("path");
 var logFile = path.join(__dirname, "server.log");
 var bjs = require('bitcoinjs-lib');
-var bitcoinRPC = require("node-bitcoin-rpc");
 var Promise = require('bluebird');
-Promise.promisifyAll(bitcoinRPC);
+var Queue = require('simple-promise-queue');
+Queue.setPromise(require('bluebird'));
+var request = require('request-promise');
+
+var queue = new Queue({
+    autoStart: true,
+    concurrency: config.get('RPC.concurrency')
+});
 
 
-bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
+server.listen(config.get('Web.port'));
+app.use(compression());
+var accessLogStream = fs.createWriteStream(logFile, {flags: 'a'})
+console.log("logging to file: " + logFile);
+app.use(morgan("combined", {stream: accessLogStream}));
+app.use(bodyParser.json());
+console.log("server is now running on port " + config.get('Web.port'));
 
+app.use('/api/', api);
+app.use('/', express.static(__dirname + '/static'));
 
+if(process.env.NODE_ENV !== 'production') {
+  process.once('uncaughtException', function(err) {
+    console.error('FATAL: Uncaught exception.');
+    console.error(err.stack||err);
+    setTimeout(function(){
+      process.exit(1);
+    }, 100);
+  });
+}
 
-// Code to run if we're in the master process
-if (cluster.isMaster) {
+sock.connect(config.get('Zmq.socket'));
+config.get('Zmq.events').forEach(function(event){
+   sock.subscribe(event); 
+});
 
-    // Count the machine's CPUs
-//    var cpuCount = os.cpus().length;
+io.on('connection', function(data){
+    //console.log("data is: " + data) ;
+    //console.log(data);
+});
 
-    // Create a worker for each CPU
-//    for (var i = 0; i < cpuCount; i += 1) {
-//        cluster.fork();
-//    }
-    
-    // Listen for dying workers
-    cluster.on('exit', function (worker) {
-
-        // Replace the dead worker,
-        // we're not sentimental
-        console.log('Worker %d died :(', worker.id);
-    //    cluster.fork();
-    });
-
-// Code to run if we're in a worker process
-} //else {
-
-    server.listen(config.get('Web.port'));
-    app.use(compression());
-    var accessLogStream = fs.createWriteStream(logFile, {flags: 'a'})
-    console.log("logging to file: " + logFile);
-    app.use(morgan("combined", {stream: accessLogStream}));
-    app.use(bodyParser.json());
-    console.log("server is now running on port " + config.get('Web.port'));
-
-    app.use('/api/', api);
-    app.use('/', express.static(__dirname + '/static'));
-
-    if(process.env.NODE_ENV !== 'production') {
-      process.once('uncaughtException', function(err) {
-        console.error('FATAL: Uncaught exception.');
-        console.error(err.stack||err);
-        setTimeout(function(){
-          process.exit(1);
-        }, 100);
-      });
-    }
-
-    sock.connect(config.get('Zmq.socket'));
-    config.get('Zmq.events').forEach(function(event){
-       sock.subscribe(event); 
-    });
-    
-    io.on('connection', function(data){
-        //console.log("data is: " + data) ;
-        //console.log(data);
-    });
-    sock.on('message', function(topic, message) {
-        var events = [
-            'hashtx',
-            'hashblock',
-            'rawtx'
-        ];
-        events.forEach(function(event){
-            if(topic.toString() === event){
-                if(event === 'rawtx'){
-                    var txHex = message.toString('hex');
-                    var id, fee
-                    var inputTotal = 0, outputTotal = 0;
-                    try {
-                        var tx = bjs.Transaction.fromHex(txHex);
-                    }
-                    catch (err){
-                        console.error(err);
-                        console.error('Something went bad when fething tx ' + txHex);
-                    }
-                    var workQueue = [];
-                    try{
-                        tx.ins.forEach(function (input){
-                            var txId = Buffer.from(input.hash.toString('hex'),'hex');
-                            for(var i = 0, j = txId.length - 1; i < txId.length; i++, j--){
-                                txId[i] = input.hash[j];
-                            }//we reverse the bytes as input.hash has it backwards
-                            var index = input.index;//we need to remember the index of the input, so we can reference its value below
-                            txId = txId.toString('hex');
-                            workQueue.push(
-                                bitcoinRPC.callAsync('gettransaction', [txId])
-                                .then(function (res){
-                                    try {
-                                        var tx = bjs.Transaction.fromHex(res.result.hex);
-                                    }
-                                    catch(err){
-                                        console.error('something went wrong while trying to decode: ')
-                                        console.error(res);
-                                        console.error(err);
-                                        console.error('check if you are synced!');
-                                        return err;
-                                    }
-                                    return tx.outs[index].value;
-                                })
-                            );
-                        });
-                    }
-                    catch (err){
-                        console.error('something went wrong with fetching inputs of tx ' + txHex);
-                        console.error(err);
-                    }
-                    Promise.all(workQueue)
-                    .then(function (res){
-                        tx.outs.forEach(function (output){
-                            outputTotal += output.value;
-                        });
-                        res.forEach(function (inputValue){
-                            inputTotal += inputValue;
-                        });
-                        fee = inputTotal - outputTotal;
-                        io.emit(topic.toString(),{
-                            data: txHex,
-                            fee: fee
-                        });
-                    });
-                    
-                    
-                    
-                }
-                else io.emit(topic.toString(), {data: message.toString('hex')});
+function enqueueInputValueGetter(queue, url, index){
+    //returns a promise and fetches tx output value given by index
+    return queue.pushTask(function getInputValues(resolve, reject){
+        request(url)
+        .then(function (res){
+            try{
+                var tx = bjs.Transaction.fromHex(res.trim());
             }
-        });
-        
-      //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
+            catch(err){
+                console.error('Error while fetching raw input ', res);
+                console.error(err);
+            }
+            resolve(tx.outs[index].value);
+         })
+         .catch(function (err){
+            console.error('there was an error during request for', url);
+            reject(err);
+         });
     });
-    
-//}
+}
+
+sock.on('message', function(topic, message) {
+    var events = [
+        'hashtx',
+        'hashblock',
+        'rawtx'
+    ];
+    events.forEach(function(event){
+        if(topic.toString() === event){
+            if(event === 'rawtx'){
+                var txHex = message.toString('hex');
+                try {
+                    var tx = bjs.Transaction.fromHex(txHex);
+                }
+                catch (err){
+                    console.error('initial tx creation from raw hex failed!')
+                    console.error(err);
+                }
+                if(tx.isCoinbase()){
+                    //this is a coinbase tx, no input = no fees
+                    return;
+                }
+                var txid = tx.getId();
+                var baseUrl = 'http://' + config.get('RPC.host') + ':' + config.get('RPC.port') + '/rest/tx/';
+                var workQueue = [];
+                tx.ins.forEach(function (vin){
+                    var url = baseUrl + vin.hash.reverse().toString('hex') + '.hex';
+                    workQueue.push(enqueueInputValueGetter(queue,url,vin.index));
+                });
+                Promise.all(workQueue)
+                .then(function (valueForEachInput){
+                    var outputTotal = 0,
+                        inputTotal = 0;
+                    tx.outs.forEach(function (output){
+                        outputTotal += output.value;
+                    });
+                    valueForEachInput.forEach(function (inputValue){
+                        inputTotal += inputValue;
+                    });
+                    var fee = inputTotal - outputTotal;
+                    io.emit(topic.toString(),{
+                        data: txHex,
+                        fee: fee
+                    });
+                })
+                .catch(function (err){
+                    if(err.name === 'StatusCodeError'){
+                        console.error('There was a status code error during rawtx fetching, make sure txindex=1 and you are not running a pruned node!');
+                    }
+                    else {
+                        console.error('There was an unknown error, dumping trace:');
+                        console.error(err);
+                    }
+                });
+            }
+            else io.emit(topic.toString(), {data: message.toString('hex')});
+        }
+    });
+
+  //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
+});
+

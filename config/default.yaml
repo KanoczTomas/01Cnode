@@ -12,6 +12,7 @@ RPC:
   port: 8332
   rpc_username: <some username>
   rpc_password: <a very secret password>
+  concurrency: 100
 
 Zmq:
   socket: "tcp://127.0.0.1:28332"
