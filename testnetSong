@@ -1,0 +1,5 @@
+( bitcoin-cli -testnet getrawtransaction 73e64e38faea386c88a578fd1919bcdba3d0b3af7b6302bf6ee1b423dc4e4333 ; bitcoin-cli -testnet getrawtransaction d85af546147ff78dfb06e9469ddfc84adc3ce00cda54db8d65b7617ff2b7661a) | xxd -r -p | play -tul -
+
+bitcoin-cli -testnet getblock 000000007652b10d91fcf118ed315a57e5491a2514e6e0101950185e0b42b679 false | xxd -r -p | play -tul -
+
+
