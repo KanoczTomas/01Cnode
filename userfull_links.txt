@@ -5,3 +5,6 @@ https://medium.com/shyp-engineering/speeding-up-javascript-test-time-1000x-460c5
 
 for testnet mining:
 cgminer.exe -o http://localhost:18332 -u username -p password --au3-volt 830 --au3-freq 250 --btc-address mzT8ADEE... --btc-sig "Victorsueca AMU3"
+
+building with optimised libsecp256k1 for arm
+./configure --with-asm=arm --disable-wallet --disable-tests --enable-experimental
