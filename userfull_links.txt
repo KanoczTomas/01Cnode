@@ -8,3 +8,6 @@ cgminer.exe -o http://localhost:18332 -u username -p password --au3-volt 830 --a
 
 building with optimised libsecp256k1 for arm
 ./configure --with-asm=arm --disable-wallet --disable-tests --enable-experimental
+
+#to get a pull request
+git fetch origin pull/<num>/head && git checkout FETCH_HEAD
