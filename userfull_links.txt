@@ -11,3 +11,5 @@ building with optimised libsecp256k1 for arm
 
 #to get a pull request
 git fetch origin pull/<num>/head && git checkout FETCH_HEAD
+
+https://chris.beams.io/posts/git-commit/
