@@ -104,7 +104,6 @@ sock.on('message', function(topic, message) {
                         data: txHex,
                         fee: fee
                     });
-                    console.log('fee is ' + fee + 'for txid: ' + txid);
                 })
                 .catch(function (err){
                     console.error('There was an error during getmempoolentry RPC');
