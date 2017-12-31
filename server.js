@@ -21,6 +21,7 @@ var Promise = require('bluebird');
 var Queue = require('simple-promise-queue');
 Queue.setPromise(require('bluebird'));
 var request = require('request-promise');
+var bitcoinRPC = require("node-bitcoin-rpc");
 
 var queue = new Queue({
     autoStart: true,
@@ -59,27 +60,18 @@ io.on('connection', function(data){
     //console.log(data);
 });
 
-function enqueueInputValueGetter(queue, url, index){
+bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
+
+function getFeeOfTx(txid){
     //returns a promise and fetches tx output value given by index
     return queue.pushTask(function getInputValues(resolve, reject){
-        request({
-            url: url,
-            timeout: 1000
-        })
+        bitcoinRPC.callAsync('getmempoolentry', [txid])
         .then(function (res){
-            try{
-                var tx = bjs.Transaction.fromHex(res.trim());
-            }
-            catch(err){
-                console.error('Error while fetching raw input ', res);
-                console.error(err);
-            }
-            resolve(tx.outs[index].value);
-         })
-         .catch(function (err){
-            console.error('there was an error during request for', url);
+            resolve(res.result.fee * 100000000);
+        })
+        .catch(function (err){
             reject(err);
-         });
+        });
     });
 }
 
@@ -105,37 +97,20 @@ sock.on('message', function(topic, message) {
                     return;
                 }
                 var txid = tx.getId();
-                var baseUrl = 'http://' + config.get('RPC.host') + ':' + config.get('RPC.port') + '/rest/tx/';
-                var workQueue = [];
-                tx.ins.forEach(function (vin){
-                    var url = baseUrl + vin.hash.reverse().toString('hex') + '.hex';
-                    workQueue.push(enqueueInputValueGetter(queue,url,vin.index));
-                });
-                Promise.all(workQueue)
-                .then(function (valueForEachInput){
-                    var outputTotal = 0,
-                        inputTotal = 0;
-                    tx.outs.forEach(function (output){
-                        outputTotal += output.value;
-                    });
-                    valueForEachInput.forEach(function (inputValue){
-                        inputTotal += inputValue;
-                    });
-                    var fee = inputTotal - outputTotal;
+        
+                getFeeOfTx(txid)
+                .then(function (fee){
                     io.emit(topic.toString(),{
                         data: txHex,
                         fee: fee
                     });
+                    console.log('fee is ' + fee + 'for txid: ' + txid);
                 })
                 .catch(function (err){
-                    if(err.name === 'StatusCodeError'){
-                        console.error('There was a status code error during rawtx fetching, make sure txindex=1 and you are not running a pruned node!');
-                    }
-                    else {
-                        console.error('There was an unknown error, dumping trace:');
-                        console.error(err);
-                    }
+                    console.error('There was an error during getmempoolentry RPC');
+                    console.error('error is: ' + err);
                 });
+
             }
             else io.emit(topic.toString(), {data: message.toString('hex')});
         }
