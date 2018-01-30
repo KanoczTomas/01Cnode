@@ -83,7 +83,7 @@ sock.on('message', function(topic, message) {
     ];
     events.forEach(function(event){
         if(topic.toString() === event){
-            if(event === 'rawtx'){
+            if(event === 'rawtxn'){
                 var txHex = message.toString('hex');
                 try {
                     var tx = bjs.Transaction.fromHex(txHex);

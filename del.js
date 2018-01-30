@@ -1,7 +1,9 @@
 var zmq = require('zeromq')
   , sock = zmq.socket('sub');
  
-sock.connect('tcp://127.0.0.1:28332');
+//sock.connect('tcp://127.0.0.1:28332');
+sock.connect('tcp://127.0.0.1:29000');
+//sock.connect('tcp://10.0.3.110:29000');
 sock.subscribe('rawtx');// hashblock hashtx rawblock');
 sock.subscribe('hash');
 sock.subscribe('hashblock');
