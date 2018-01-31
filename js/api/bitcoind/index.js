@@ -21,8 +21,8 @@ bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.
 
 bitcoind.get('/hashrate', function(req, res){
     
-    var timeSpanUsedToCalculateHashRateInHours = 24*7;
-    var info = {
+    var timeSpanUsedToCalculateHashRateInHours = 24*2;
+        var info = {
         blocks : [],
         lastDifficulty: 0,
         idealBlockCount: timeSpanUsedToCalculateHashRateInHours * 6, 
@@ -33,54 +33,62 @@ bitcoind.get('/hashrate', function(req, res){
     }
     //we will fetch block headers for last 3 days now
     //definining helper promise returning functions
+    
+//    function generateRPCfunctions(){
+//        var functions = [
+//            {name: 'get block count', args: ''},
+//            {name: 'get block hash', args: 'height'},
+//            {name: 'get block', args: 'hash'},
+//            {name: 'get block header', args: 'hash'},
+//            {name: 'get difficulty', args: ''}
+//        ];
+//        
+//        
+//    }();
+    
+    //---------------------
     function getBlockCount(){
         return bitcoinRPC.callAsync('getblockcount', [])
         .then(function (res){
-            return res.result;
-        })
-        .error(function (err){
-            return Promise.reject({
-                method: 'getblockcount',
-                error: err
-            });
+            if(res.result) return res.result;
+            else return Promise.reject(res.error.message);
         });
     }
     function getBlockHash(height){
         return bitcoinRPC.callAsync('getblockhash', [height])
         .then(function (res){
-            return res.result;
-        })
-        .error(function (err){
-            return Promise.reject(err);
+            if(res.result) return res.result;
+            else return Promise.reject(res.error.message);
         });
     }
     function getBlock(hash){
+        var callName = getBlock.name + '(' + hash + ')';
         return bitcoinRPC.callAsync('getblock', [hash])
         .then(function (res){
-            return res.result;
-        })
-        .error(function (err){
-            return Promise.reject(err);
+            if(res.result) return res.result;
+            else {
+                res.error.callName = callName;
+                return Promise.reject(res.error);
+            }
         });
     }
     function getBlockHeader(hash){
         return bitcoinRPC.callAsync('getblockheader', [hash])
         .then(function (res){
-            return res.result;
-        })
-        .error(function (err){
-            return Promise.reject(err);
+            if(res.result) return res.result;
+            else return Promise.reject(res.error.message);
         });
     }
     function getDifficulty(hash){
         return bitcoinRPC.callAsync('getdifficulty', [])
         .then(function (res){
-            return res.result;
-        })
-        .error(function (err){
-            return Promise.reject(err);
+            if(res.result) return res.result;
+            else return Promise.reject(res.error.message);
         });
     }
+    
+    //----------------
+    
     Promise.coroutine(function *gen(){
         try{
             var blocks = yield getBlockCount();
@@ -98,7 +106,7 @@ bitcoind.get('/hashrate', function(req, res){
                 else if(i % 3 === 1)process.stdin.write('\rfetching .. ');
                 else if(i % 3 === 2)process.stdin.write('\rfetching ...');
             }while(Number(info.blocks[i++].time) > nHoursAgo);
-            process.stdin.write('\r\n');
+//            process.stdin.write('\n');
             info.blocks.pop();//last block in the list has to be popped, because of do while
             console.log('fetched ' + info.blocks.length + ' blocks.');
             console.log('should have been: ' + info.idealBlockCount);
@@ -123,11 +131,7 @@ bitcoind.get('/hashrate', function(req, res){
             var fetchTime = Date.now();
             
             for(let i=0; i < info.blocks.length; i++){
-                process.stdin.write('\rfetching ' + info.blocks[i].hash + ' - ' + (i+1) + ' of ' + info.blocks.length + ' total blocks\n');
-                
-                console.log(info.blocks.length);
-                console.log(info.blocks[i].hash);
-                
+                process.stdin.write('\rfetching block ' + info.blocks[i].hash + ' - ' + (i+1) + ' of ' + info.blocks.length + 'blocks');
                 let block = yield getBlock(info.blocks[i].hash);
                 info.averageSize += Number(block.size);
                 info.averageWeight += Number(block.weight);
@@ -152,7 +156,8 @@ bitcoind.get('/hashrate', function(req, res){
             });
         }
         catch(err){
-            console.error('there was an error');
+            console.error('\nthere was an error');
+            console.error(err);
             return Promise.reject(err);
         }
     })()
