@@ -18,11 +18,11 @@
         <tr ng-class="setCSSanimation($index)" ng-repeat="tx in txes">
             <td>{{tx.txid}}</td>
             <td>{{tx.totalSent}} BTC</td>
-            <td>{{tx.byteLength() | bytes:'SIbytes.dynamic'}}</td>
-            <td>{{tx.weight() | bytes:'WU.dynamic' }}</td>
-            <td>{{(tx.fee/tx.byteLength()).toFixed(2)}}</td>
-            <td>{{(tx.fee/tx.weight()).toFixed(2)}}</td>
-            <td><span ng-show="tx.hasWitness()" class="text-center text-success">yes</span><span ng-hide="tx.hasWitness()" class="text-center text-danger">no</span></td>
+            <td>{{tx.byteLength | bytes:'SIbytes.dynamic'}}</td>
+            <td>{{tx.weight | bytes:'WU.dynamic' }}</td>
+            <td>{{(tx.fee/tx.byteLength).toFixed(2)}}</td>
+            <td>{{(tx.fee/tx.weight).toFixed(2)}}</td>
+            <td><span ng-show="tx.hasWitnesses" class="text-center text-success">yes</span><span ng-hide="tx.hasWitnesses" class="text-center text-danger">no</span></td>
         </tr>
     </tbody>
 </table>

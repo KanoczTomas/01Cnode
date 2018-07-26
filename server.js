@@ -52,7 +52,7 @@ if(process.env.NODE_ENV !== 'production') {
 
 sock.connect(config.get('Zmq.socket'));
 config.get('Zmq.events').forEach(function(event){
-   sock.subscribe(event); 
+   sock.subscribe(event);
 });
 
 io.on('connection', function(data){
@@ -97,11 +97,20 @@ sock.on('message', function(topic, message) {
                     return;
                 }
                 var txid = tx.getId();
-        
+
                 getFeeOfTx(txid)
                 .then(function (fee){
+                    let totalSent = 0;
+                    tx.outs.forEach(function (out) {
+                      totalSent += out.value;
+                    })
+                    totalSent = (totalSent / 100000000).toFixed(8); //we convert satoshi to BTC
                     io.emit(topic.toString(),{
-                        data: txHex,
+                        txid: tx.getId(),
+                        totalSent: totalSent,
+                        byteLength: tx.byteLength(),
+                        hasWitnesses: tx.hasWitnesses(),
+                        weight: tx.weight(),
                         fee: fee
                     });
                 })
@@ -117,4 +126,3 @@ sock.on('message', function(topic, message) {
 
   //console.log('received a message related to:', topic.toString(), 'containing message:', message.toString('hex'));
 });
-

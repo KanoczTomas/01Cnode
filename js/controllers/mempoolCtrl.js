@@ -1,8 +1,7 @@
 'use strict';
-var bjs = require("bitcoinjs-lib");
 module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope, $http, socketio, apiUrlStart) {
 
-    
+
     $scope.loadMempool = function() {
         $http.get(apiUrlStart + "/getmempoolinfo").then(function (res) {
             $scope.mempoolEntry = res.data;
@@ -16,43 +15,27 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
         else if (index === $scope.showN) return "fade-out";
         else return "fade-in";
     }
-    
 
-    $scope.rawtxListener = function(data) {
-        try {
-            var tx = bjs.Transaction.fromHex(data.data);  
-            window.tx = tx;
-        }
-        catch (e) {
-            console.log(e);
-            console.log("probably a non standard tx - here is the dump of data: " + data.data);
-            return;
-        }
-        
-        tx.fee = data.fee;//we get it from the server
-        tx.totalSent = 0;
-        tx.txid = tx.getId();
-        tx.outs.forEach(function (out) {
-            tx.totalSent += out.value;
-        })
-        tx.totalSent = (tx.totalSent / 100000000).toFixed(8); //we convert satoshi to BTC
+
+    $scope.rawtxListener = function(tx) {
+        console.log(tx);
         if($scope.mempoolEntry)$scope.mempoolEntry.size += 1;
-        if($scope.mempoolEntry)$scope.mempoolEntry.bytes += tx.byteLength(); 
+        if($scope.mempoolEntry)$scope.mempoolEntry.bytes += tx.byteLength;
         if($scope.mempoolEntry)$scope.mempoolEntry.fitsToHowManyBlocks = Math.ceil($scope.mempoolEntry.bytes/1000000);
         if ($scope.txes.length > $scope.showN) $scope.txes.pop();
         $scope.txes.unshift(tx);
     }
-    
+
     socketio.on('rawtx', $scope.rawtxListener);
-    
+
     $scope.hashblockListener = function(data) {
         $scope.loadMempool();
     };
     socketio.on('hashblock', $scope.hashblockListener);
-    
+
     $scope.$on("$destroy", function () {
         socketio.removeListener('rawtx', $scope.rawtxListener);
         socketio.removeListener('hashblock', $scope.hashblockListener);
     });
-    
+
 }];

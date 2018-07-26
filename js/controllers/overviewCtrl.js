@@ -5,7 +5,7 @@ module.exports = ['$scope', '$http', '$interval', 'apiUrlStart', 'getInfoSrv', f
             $http.get(apiUrlStart + '/getpeerinfo').then(function (res) {
                 $scope.peers = res.data;
             });
-            $http.get(apiUrlStart + '/getinfo').then(function (res){
+            $http.get(apiUrlStart + '/getblockchaininfo').then(function (res){
                 $scope.blocks = res.data.blocks;
             });
         };

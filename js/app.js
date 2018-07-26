@@ -1,7 +1,7 @@
 'use strict';
 
 require("angular");
-require("@uirouter/angularjs")
+require("@uirouter/angularjs");
 var config = require("config");
 var socketio = require("angular-socket-io");
 
