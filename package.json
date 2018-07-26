@@ -1,6 +1,6 @@
 {
   "name": "01Cnode",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "web frontend for bitcoind, a decentralised block explorer",
   "main": "server.js",
   "scripts": {

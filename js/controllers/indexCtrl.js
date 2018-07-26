@@ -7,9 +7,9 @@ angular.module(config.get('Client.appName'))
 .controller('indexCtrl', ['$scope', 'getInfoSrv', function ($scope, getInfoSrv) {
     $scope.regtest = false;
     $scope.main = false;
-    $scope.testnet = false;
+    $scope.test = false;
     $scope.synced = false;
-    
+
     function setChain(chainName){//we set $scope.regtest or $scope.main or $scope.testnet to true then getInfoSrv resolves
         $scope[chainName] = true;
     }
