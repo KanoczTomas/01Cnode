@@ -6,15 +6,8 @@ var Promise = require("bluebird");
 var bitcoinRPC = require("node-bitcoin-rpc");
 var os = require("os");
 Promise.promisifyAll(bitcoinRPC);
-var getSize = require('get-folder-size');
+var getSize = require('nodejs-fs-utils').fsize;
 Promise.promisifyAll(getSize);
- 
-//getSize(myFolder, function(err, size) {
-//  if (err) { throw err; }
-// 
-//  console.log(size + ' bytes');
-//  console.log((size / 1024 / 1024).toFixed(2) + ' Mb');
-//});
 
 
 bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
@@ -32,17 +25,17 @@ bitcoind.get("/status", function(req, res){
 		networkInterfaces: os.networkInterfaces(),
 		loadavg: os.loadavg()
 	};
-    getSize(config.get('Bitcoin.homeDir'), function(error,size){
-        if(!error){
-            info.blockchainSize = size;
-            res.status(200).json(info).end();    
-        }
-        else res.status(400).json(error).end();
-    });
+  getSize(config.get('Bitcoin.homeDir'), function(error,size){
+      if(!error){
+          info.blockchainSize = size;
+          res.status(200).json(info).end();
+      }
+      else res.status(400).json(error).end();
+  });
 });
 
 config.get('Api.restCalls').forEach(function(entry){
-    
+
     bitcoind.get(entry.uri, function(req, res) {
         var inputString = [];
         if(entry.inputType === 'string'){
