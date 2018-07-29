@@ -5,6 +5,7 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
     $scope.loadMempool = function() {
         $http.get(apiUrlStart + "/getmempoolinfo").then(function (res) {
             $scope.mempoolEntry = res.data;
+            $scope.mempoolEntry.fitsToHowManyBlocks = Math.ceil($scope.mempoolEntry.bytes/1000000);
         });
     };
     $scope.loadMempool();
@@ -17,8 +18,8 @@ module.exports = ['$scope', '$http', 'socketio', 'apiUrlStart', function ($scope
     }
 
 
+
     $scope.rawtxListener = function(tx) {
-        console.log(tx);
         if($scope.mempoolEntry)$scope.mempoolEntry.size += 1;
         if($scope.mempoolEntry)$scope.mempoolEntry.bytes += tx.byteLength;
         if($scope.mempoolEntry)$scope.mempoolEntry.fitsToHowManyBlocks = Math.ceil($scope.mempoolEntry.bytes/1000000);

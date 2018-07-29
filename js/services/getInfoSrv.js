@@ -19,7 +19,6 @@ angular.module(config.get("Client.appName"))
 //        })
     ])
     .then(function (res) {
-        console.log('inside final promise');
         info.chain = res[0].data.chain;
         if(res[0].data.blocks === res[0].data.headers)
             info.synced = true;
