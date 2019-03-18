@@ -17,6 +17,7 @@ echo "autosetup is supported only on testnet/regtest"
 echo "which network to setup?"
 echo "1) regtest"
 echo "2) testnet"
+echo "3) mainnet"
 echo "default: testnet"
 read answer
 
@@ -26,6 +27,9 @@ case "$answer" in
 		;;
 	2)
 		network=testnet
+		;;
+	3)
+		network=mainnet
 		;;
 	*)
 		echo "unknown option $answer, choosing testnet!"
@@ -43,5 +47,8 @@ set +x
 docker build -t 01cnode .
 
 echo ""
+echo "edit config/default.yaml to reflect your configuration"
+echo "make sure you set the correct rpc username/password"
 echo "type ./run.sh to start the container"
+echo ""
 echo "done."
