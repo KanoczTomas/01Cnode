@@ -17,7 +17,7 @@ echo "which network to setup?"
 echo "1) regtest"
 echo "2) testnet"
 echo "3) mainnet"
-echo "default: testnet"
+echo "default: $network"
 read answer
 
 case "$answer" in
