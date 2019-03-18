@@ -3,7 +3,7 @@ Web:
   port: 5000
 
 Client:
-  appName: raspinodemon
+  appName: 01cnode
   apiUrlStart: "/api/bitcoind"
   pageName: "my bitcoin fullnode"
 
