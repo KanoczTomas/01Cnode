@@ -1,0 +1,13 @@
+testnet=1
+[test]
+rpcuser=secretuser
+rpcpassword=secretpass
+server=1
+walletbroadcast=1
+prune=550
+rpcallowip=172.17.0.2
+rpcbind=172.17.0.1
+zmqpubhashtx=tcp://172.17.0.1:28332
+zmqpubhashblock=tcp://172.17.0.1:28332
+zmqpubrawblock=tcp://172.17.0.1:28332
+zmqpubrawtx=tcp://172.17.0.1:28332

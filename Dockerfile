@@ -1,4 +1,5 @@
 FROM node:8
+WORKDIR /bitcoin
 WORKDIR /opt/01cnode
 COPY package*.json ./
 RUN npm install

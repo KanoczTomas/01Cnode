@@ -1,0 +1,82 @@
+---
+Web:
+  port: 5000
+
+Client:
+  appName: 01cnode
+  apiUrlStart: "/api/bitcoind"
+  pageName: "my bitcoin fullnode"
+
+RPC:
+  host: 172.17.0.1
+  port: 18443
+  rpc_username: secretuser
+  rpc_password: secretpass
+  concurrency: 100
+
+Zmq:
+  socket: "tcp://172.17.0.1:28332"
+  events:
+    - "hashblock"
+    - "hashtx"
+    - "rawblock"
+    - "rawtx"
+    
+Bitcoin:
+  homeDir: '/bitcoin'
+
+Api:
+  restCalls:
+    - callName: getinfo
+      inputName: none
+      inputType: none
+      uri: '/getinfo'
+    - callName: getpeerinfo
+      inputName: none
+      inputType: none
+      uri: '/getpeerinfo'
+      timeout: 4000
+    - callName: getblockchaininfo
+      inputName: none
+      inputType: none
+      uri: '/getblockchaininfo'
+      timeout: 8000
+    - callName: getnetworkinfo
+      inputName: none
+      inputType: none
+      uri: '/getnetworkinfo'
+    - callName: getmempoolinfo
+      inputName: none
+      inputType: none
+      uri: '/getmempoolinfo'
+    - callName: getrawmempool
+      inputName: none
+      inputType: none
+      uri: '/getrawmempool'
+      timeout: 4000
+    - callName: getmempoolentry
+      inputName: hash
+      inputType: string
+      uri: '/getmempoolentry/:hash'
+    - callName: getblockhash
+      inputName: index
+      inputType: number
+      uri: '/getblockhash/:index'
+    - callName: getblock
+      inputName: hash
+      inputType: string
+      uri: '/getblock/:hash'
+    - callName: estimatefee
+      inputName: nblocks
+      inputType: number
+      uri: '/estimatefee/:nblocks'
+    - callName: getrawtransaction
+      inputName: txid
+      inputType: string
+      uri: '/getrawtransaction/:txid'
+      verbose: true
+    - callName: getblockcount
+      inputName: none
+      inputType: none
+      uri: '/getblockcount'
+...
