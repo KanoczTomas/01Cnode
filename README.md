@@ -29,8 +29,10 @@ demo page can be found at http://node.ispol.sk
  ```
  ./docker_build.sh
  ```
- example output (note first time build takes some time and outputs much more logs):
- ```
+ 
+example output (note first time build takes some time and outputs much more logs):
+
+``` 
  setup 01cnode for you?
 y/N
 y
@@ -98,7 +100,16 @@ done.
  
  ```
  ./run.sh
- ```
+```
+
+example output:
+
+```
+user@host:~/bin/01Cnode$ ./run.sh 
+logging to file: /opt/01cnode/server.log
+server is now running on port 5000
+```
+
  - point your browser to http://localhost:5000
  
  - hit `ctrl+c` if you want to finish 01cnode
