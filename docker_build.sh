@@ -13,7 +13,6 @@ if [ "$answer" != "y" ];then
   exit 0
 fi
 
-echo "autosetup is supported only on testnet/regtest"
 echo "which network to setup?"
 echo "1) regtest"
 echo "2) testnet"
