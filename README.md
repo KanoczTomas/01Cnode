@@ -99,6 +99,8 @@ done.
  ```
  ./run.sh
  ```
+ - point your browser to http://localhost:5000
+ 
  - hit `ctrl+c` if you want to finish 01cnode
   
 >_a PR for a windows script that helps with docker setup is much appreciated!_
