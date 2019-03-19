@@ -37,7 +37,12 @@ case "$answer" in
 esac
 echo "configuring for $network"
 
-config=$(echo ${conf_template}|sed -r 's/_network_/'"$network"'/')
+# For macOS, use `sed -E`
+if [ "$(uname)" == "Darwin" ]; then
+	config=$(echo ${conf_template}|sed -E 's/_network_/'"$network"'/')
+else
+	config=$(echo ${conf_template}|sed -r 's/_network_/'"$network"'/')
+fi
 
 echo "running docker for you"
 set -x
