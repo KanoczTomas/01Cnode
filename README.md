@@ -15,7 +15,7 @@ demo page can be found at http://node.ispol.sk
 - transaction explorer - details about a TX are shown once the hash is included in the search bar
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
 
-# docker setup (Linux):
+# docker setup (Linux/macOS):
  - download [bitcoin-core](https://bitcoin.org/en/download)
  - install docker
  - clone this repo:
