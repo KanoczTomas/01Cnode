@@ -1,8 +1,8 @@
 'use strict';
 
 var api = require("express").Router();
-var bitcoind = require("./bitcoind");
+var BGLd = require("./BGLd");
 
-api.use('/bitcoind', bitcoind);
+api.use('/bitcoind', BGLd);
 
 module.exports = api;

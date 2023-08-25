@@ -1,18 +1,18 @@
 'use strict';
 
-var bitcoind = require("express").Router();
+var BGLd = require("express").Router();
 var config = require("config");
 var Promise = require("bluebird");
-var bitcoinRPC = require("node-bitcoin-rpc");
+var bitgesellRPC = require("node-bitcoin-rpc");
 var os = require("os");
-Promise.promisifyAll(bitcoinRPC);
+Promise.promisifyAll(bitgesellRPC);
 var getSize = require('nodejs-fs-utils').fsize;
 Promise.promisifyAll(getSize);
 
 
-bitcoinRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
+bitgesellRPC.init(config.get('RPC.host'), config.get('RPC.port'), config.get('RPC.rpc_username'), config.get('RPC.rpc_password'));
 
-bitcoind.get("/status", function(req, res){
+BGLd.get("/status", function(req, res){
 	var info = {
 		arch: os.arch(),
 		cpus: os.cpus(),
@@ -36,7 +36,7 @@ bitcoind.get("/status", function(req, res){
 
 config.get('Api.restCalls').forEach(function(entry){
 
-    bitcoind.get(entry.uri, function(req, res) {
+    BGLd.get(entry.uri, function(req, res) {
         var inputString = [];
         if(entry.inputType === 'string'){
             inputString.push(req.params[entry.inputName]);
@@ -49,9 +49,9 @@ config.get('Api.restCalls').forEach(function(entry){
             inputString.push(entry.verbose);
         }
         if(entry.timeout){
-            bitcoinRPC.setTimeout(entry.timeout);
+            bitgesellRPC.setTimeout(entry.timeout);
         }
-        bitcoinRPC.callAsync(entry.callName, inputString)
+        bitgesellRPC.callAsync(entry.callName, inputString)
         .then(function(value){
             res.status(200).json(value.result).end();
         })
@@ -61,4 +61,4 @@ config.get('Api.restCalls').forEach(function(entry){
     })
 });
 
-module.exports = bitcoind;
+module.exports = BGLd;
