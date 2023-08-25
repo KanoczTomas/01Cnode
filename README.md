@@ -2,17 +2,18 @@
 
 <img src="doc/img/Icon.png" style="height: 60px;"/>
 
-This is a webfrontend for a full bitcoin node. Bitgesell-node-monitor is running as the backend and this little app allows you to see the status of the node through an easy graphical web frontend. 
+This is a webfrontend for a full Bitgesell node. Bitgesell-node-monitor is running as the backend and this little app allows you to see the status of the node on the web. 
 
 
-# Implemented pages:
-- overview - shows basic info about the node like processor count, available memorry, active interfaces, connected peers, client version, number of blocks, synced state, etc.
+# How it works
+The application consists of the following pages:
+1. overview - shows basic info about the node like processor count, available memorry, active interfaces, connected peers, client version, number of blocks, synced state, etc.
 ![overview screenshot](doc/img/overview.png "Overview")
-- mempool - page shows total mempool entries, size of the mempool, to how many blocks would the transactions roughly fit, transaction size, weight and if the transaction has a witness (is segwit). Shows the last 10 txes in realtime that the bitcoind client sent us through zeromq. 
+2. mempool - page shows total mempool entries, size of the mempool, to how many blocks would the transactions roughly fit, transaction size, weight and if the transaction has a witness (is segwit). Shows the last 10 txes in realtime that the BGLd client sent us through zeromq. 
 ![mempool screenshot](doc/img/mempool.png "Mempool")
-- block explorer - the 10 latest blocks are shown, their size, weight, timestamp 
+3. block explorer - the 10 latest blocks are shown, their size, weight, timestamp 
 ![blockexplorer screenshot](doc/img/blockexplorer.png "Blockexplorer")
-- transaction explorer - details about a TX are shown once the hash is included in the search bar
+5. transaction explorer - details about a TX are shown once the hash is included in the search bar
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
 
 # docker setup (Linux/macOS):
@@ -89,7 +90,7 @@ type ./run.sh to start the container
 
 done.
  ```
- - edit `config/default.yaml` rpc information. Change it to whatever you supplied to `bitcoind`. All other configuration options were prefilled for you. Do not change them unless you know what you are doing.
+ - edit `config/default.yaml` rpc information. Change it to whatever you supplied to `BGLd`. All other configuration options were prefilled for you. Do not change them unless you know what you are doing.
  
  ```
   rpc_username: secretuser
@@ -157,15 +158,6 @@ node server.js
 ```
 - browse to http://localhost:5000 to view the page (assuming bitcoin-core and the web frontend are on the same node)
 
-# todos:
-- see issues page
+# Todos:
 
-# donations:
-please consider donating bitcoins if you like the project:
-
-![bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK](doc/img/donation.svg "bitcoin:3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK")
-
-**bitcoin 3Fomcsyhc2gb5vyJLitJC8FXovBAnfWuAK**
-
-# author
-Tomas Kanocz
+For pending features, see issues page
