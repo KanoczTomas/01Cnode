@@ -1,5 +1,7 @@
 # Bitgesell-node-monitor
 
+<img src="doc/img/Icon.png" style="height: 60px;"/>
+
 This is a webfrontend for a full bitcoin node. Bitgesell-node-monitor is running as the backend and this little app allows you to see the status of the node through an easy graphical web frontend. 
 
 
