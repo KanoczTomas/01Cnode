@@ -1,9 +1,7 @@
-# 01C Node
+# Bitgesell-node-monitor
 
 This is a webfrontend for a full bitcoin node. Bitcoin-core is running as the backend and this little app allows you to see the status of the node through an easy graphical web frontend. 
 
-# demo page
-demo page can be found at http://node.ispol.sk
 
 # Implemented pages:
 - overview - shows basic info about the node like processor count, available memorry, active interfaces, connected peers, client version, number of blocks, synced state, etc.
@@ -16,12 +14,12 @@ demo page can be found at http://node.ispol.sk
 ![transactionexplorer screenshot](doc/img/txexplorer.png "Transactionexplorer")
 
 # docker setup (Linux/macOS):
- - download [bitcoin-core](https://bitcoin.org/en/download)
+ - Install bitgesell core [bitgesell-core](https://gist.github.com/naftalimurgor/45872acbf5fa9c18ab08e46e66e2d3ff)
  - install docker
  - clone this repo:
  
  ```
- git clone https://github.com/KanoczTomas/01Cnode.git && cd 01Cnode
+ git clone https://github.com/collins-hue/Bitgesell-node-monitor.git && cd Bitgesell-node-monitor
  ```
  
  - then run helper script:
@@ -33,7 +31,7 @@ demo page can be found at http://node.ispol.sk
 example output (note first time build takes some time and outputs much more logs):
 
 ``` 
- setup 01cnode for you?
+ setup Bitgesell-node-monitor for you?
 y/N
 y
 which network to setup?
