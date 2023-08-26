@@ -1,6 +1,6 @@
 FROM node:8
-WORKDIR /bitcoin
-WORKDIR /opt/01cnode
+WORKDIR /bitgesell
+WORKDIR /opt/bitgesell
 COPY package*.json ./
 RUN npm install
 COPY . .

@@ -4,7 +4,7 @@ set -eo pipefail
 conf_template=docker/config/default._network_.yaml
 network=testnet
 
-echo "setup 01cnode for you?"
+echo "setup Bitgesell-node-monitor for you?"
 echo "y/N"
 read answer
 
@@ -48,7 +48,7 @@ echo "running docker for you"
 set -x
 cp $config config/default.yaml
 set +x
-docker build -t 01cnode .
+docker build -t bitgesell-node-monitor .
 
 echo ""
 echo "edit config/default.yaml to reflect your configuration"
