@@ -1,5 +1,5 @@
 {
-  "name": "01Cnode",
+  "name": "Bitgesell-node-monitor",
   "version": "0.1.10",
   "description": "web frontend for bitcoind, a decentralised block explorer",
   "main": "server.js",
